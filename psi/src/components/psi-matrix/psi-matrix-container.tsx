@@ -6,7 +6,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {RowData} from "../../../models/row-data";
+import {RowData} from "../../models/row-data";
+import PsiMatrixCell from "./psi-matrix-cell";
 
 function createData(
     phase: string,
@@ -56,7 +57,7 @@ export default function BasicTable() {
                             </TableCell>
                             <TableCell align="right"><bdi dir='auto'>{row.what}</bdi></TableCell>
                             <TableCell align="right"><bdi dir='auto'>{row.who}</bdi></TableCell>
-                            <TableCell align="right"><bdi dir='auto'>{row.how}</bdi></TableCell>
+                            <TableCell align="right"><PsiMatrixCell/></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

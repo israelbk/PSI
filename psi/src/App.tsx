@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import BasicTable from "./components/psi-matrix/psi-matrix-container/psi-matrix-container";
+import BasicTable from "./components/psi-matrix/psi-matrix-container";
 
 function App() {
   return (
