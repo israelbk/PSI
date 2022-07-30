@@ -9,7 +9,6 @@ interface PsiMatrixCellProps{
 
 export default function PsiMatrixCell(props: PsiMatrixCellProps){
     const {initialState} = props
-
     const [state,setState] = useState<EditorState>(initialState?? EditorState.createEmpty())
 
 
