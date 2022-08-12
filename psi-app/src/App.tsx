@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import BasicTable from "./components/psi-matrix/psi-matrix-container";
+import MainScreen from "./components/main-screen/main-screen";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-       <BasicTable/>
+       <MainScreen/>
       </header>
     </div>
   );

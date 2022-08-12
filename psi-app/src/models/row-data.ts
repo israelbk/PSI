@@ -1,6 +1,7 @@
+import PsiCellModel from "./psi-cell-model";
+
 export interface RowData{
-    phase: string;
-    what: string;
-    who: string;
-    how: string;
+    what: PsiCellModel;
+    who: PsiCellModel;
+    how: PsiCellModel;
 }
