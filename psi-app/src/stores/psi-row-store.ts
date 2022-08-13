@@ -5,6 +5,7 @@ import PsiRowModel from "../models/psi-row-model";
 import SinglePsiStore from "./single-psi-store";
 
 export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
+  // Just a comment
   rowNum!: number;
   @observable phase!: string;
   @observable what!: PsiCellStore;
