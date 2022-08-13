@@ -16,7 +16,7 @@ export default function PsiMatrixCell(props: PsiMatrixCellProps) {
   );
 
   const debounced = useCallback(
-    debounce(() => {
+      () => debounce(() => {
       store.setFreeText(editorState);
       store.onCellChanged();
     }, 1000),
