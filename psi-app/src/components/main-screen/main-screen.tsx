@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 
-import PsiMatrixContainer from "../psi-matrix/psi-matrix-container";
+import PsiMatrixContainer from "../psi-matrix/psi-matrix-container/psi-matrix-container";
 import PsiInstanceStore from "../../stores/psi-instance-store";
 
 function MainScreen(){

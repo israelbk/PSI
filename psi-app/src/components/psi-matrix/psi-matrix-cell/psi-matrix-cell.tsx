@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
-import PsiCellStore from "../../stores/psi-cell-store";
+import PsiCellStore from "../../../stores/psi-cell-store";
 import { debounce } from "@mui/material";
 
 interface PsiMatrixCellProps {
