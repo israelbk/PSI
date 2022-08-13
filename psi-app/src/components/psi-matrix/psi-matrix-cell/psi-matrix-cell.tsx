@@ -20,7 +20,7 @@ export default function PsiMatrixCell(props: PsiMatrixCellProps) {
       store.setFreeText(editorState);
       store.onCellChanged();
     }, 1000),
-    [editorState]
+    [editorState, store]
   );
 
   const onEditorStateChange = (state: EditorState) => {
