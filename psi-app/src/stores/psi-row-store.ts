@@ -1,11 +1,10 @@
-import { action, IObservableArray, observable } from "mobx";
+import { action, observable } from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellStore from "./psi-cell-store";
 import PsiRowModel from "../models/psi-row-model";
 import SinglePsiStore from "./single-psi-store";
 
 export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
-  // Just a comment
   rowNum!: number;
   @observable phase!: string;
   @observable what!: PsiCellStore;
