@@ -20,6 +20,9 @@ export default function PsiMatrixContainer(props: PsiMatrixContainerProps) {
   const { store } = props;
   const currentPsi = store.currentPsiStore;
   return (
+      <div className='psi-wrapper'>
+
+
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -56,5 +59,6 @@ export default function PsiMatrixContainer(props: PsiMatrixContainerProps) {
         </TableBody>
       </Table>
     </TableContainer>
+      </div>
   );
 }

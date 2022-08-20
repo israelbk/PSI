@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@mui/lab": "*",
     "@mui/material": "^5.9.2",
     "@types/react-transition-group": "^4.4.5",
     "sass": "^1.54.4"
