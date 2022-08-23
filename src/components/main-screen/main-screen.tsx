@@ -8,6 +8,7 @@ import './main-screen.scss'
 function MainScreen(){
     const store = useMemo(() => new PsiInstanceStore(), []);
     return (<div className='main-app-wrapper'>
+                <span>Gai is the king!</span>
                 <Header store={store}/>
                 <div className='content'>
                     <PsiMatrixContainer store={store}/>
