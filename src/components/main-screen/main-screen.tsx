@@ -4,6 +4,7 @@ import PsiMatrixContainer from "../psi-matrix/psi-matrix-container/psi-matrix-co
 import PsiInstanceStore from "../../stores/psi-instance-store";
 import Header from "./header/header";
 import './main-screen.scss'
+import Footer from "./footer/footer";
 
 function MainScreen(){
     const store = useMemo(() => new PsiInstanceStore(), []);
@@ -12,7 +13,7 @@ function MainScreen(){
                 <div className='content'>
                     <PsiMatrixContainer store={store}/>
                 </div>
-                <div className='footer'/>
+                <Footer/>
             </div>)
 }
 

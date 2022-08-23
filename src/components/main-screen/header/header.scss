@@ -20,9 +20,16 @@
         max-height: 95%;
         padding-inline: 5px;
 
+        &:hover {
+          transform: scale(1.05);
+        }
+
         &.faculty {
           max-width: 550px;
           height: 60px;
+          &:hover {
+            transform: scale(1.02);
+          }
         }
       }
     }
@@ -46,135 +53,6 @@
     .export-project,
     .import-project {
       max-height: 40px;
-    }
-  }
-
-  .settings {
-    display: flex;
-    align-items: center;
-    margin-inline-end: 20px;
-
-    .trial-days-text {
-      line-height: 17px;
-      font-size: 13px;
-      color: #979da0;
-      white-space: nowrap;
-      margin-right: 10px;
-
-      .days-left {
-        font-weight: bold;
-        color: #fe7e8d;
-      }
-    }
-
-    .help-button {
-      line-height: 32px;
-      background-color: #fff;
-      border: none;
-
-      img {
-        width: 35px;
-        height: 35px;
-      }
-    }
-
-    .company-code {
-      line-height: 17px;
-      font-size: 13px;
-      color: #979da0;
-    }
-
-    .header-separator {
-      border-left: 1px solid #dcdcdc;
-      margin-inline: 20px;
-      height: 35px;
-      width: 1px;
-    }
-
-    .settings-button {
-      display: flex;
-      align-items: center;
-      box-shadow: none;
-      padding: 0;
-
-      .header-fullname {
-        white-space: nowrap;
-        font-size: 15px;
-        color: #979da0;
-        margin-inline-start: 10px;
-      }
-
-      .settings-btn-img {
-        height: 8px;
-        width: 11px;
-        margin-left: 10px;
-      }
-    }
-
-    .settings-menu {
-      width: 210px;
-      padding-top: 0;
-      left: auto;
-      right: -10px;
-
-      .list-item {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        cursor: pointer;
-        line-height: 36px;
-
-        img {
-          margin-left: 15px;
-
-          &.rtl-img {
-            transform: rotateY(180deg);
-          }
-        }
-
-        &:not(.disabled):hover {
-          background-color: #f6f6f6;
-        }
-
-        &.disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-      }
-
-      li {
-        font-family: "Open Sans Hebrew", sans-serif;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 16px;
-
-        &:nth-child(1) {
-          .header-user-initials {
-            margin-left: 10px;
-          }
-
-          height: 61px;
-          align-items: center;
-          display: flex;
-          background-color: #464f56;
-          color: #fff;
-          padding-bottom: 3px;
-
-          .manager-details {
-            margin-left: 8px;
-            line-height: 17px;
-            width: 140px;
-
-            .settings-full-name {
-              font-size: 13px;
-            }
-
-            .manager-position {
-              font-size: 11px;
-            }
-          }
-        }
-      }
     }
   }
 }

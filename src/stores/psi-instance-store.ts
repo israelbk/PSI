@@ -20,8 +20,8 @@ export default class PsiInstanceStore
     this.psisStore = observable.array(psiStores);
   }
 
-  @action private initData() {
-    const localStorageData = LocalStorageService.getPsi();
+  @action initData(data?: string) {
+    const localStorageData = data ?? LocalStorageService.getPsi();
     if (localStorageData != null) {
       this.updateFromJson(JSON.parse(localStorageData));
     } else {
@@ -39,7 +39,6 @@ export default class PsiInstanceStore
 
   onPsiChanged() {
     const psiData = this.getPsiData()
-    console.log(psiData)
     LocalStorageService.setPsi(psiData)
   }
 
