@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./header.scss";
 import PsiInstanceStore from "../../../stores/psi-instance-store";
-import { LoadingButton } from '@mui/lab';
+import { LoadingButton } from "@mui/lab";
 import { FileDownload, FileUpload } from "@mui/icons-material";
 import moment from "moment";
-import {useFilePicker} from "use-file-picker";
-import {Button} from "@mui/material";
+import { useFilePicker } from "use-file-picker";
+import { Button } from "@mui/material";
 import LocalStorageService from "../../../services/local-storage-service";
 
 interface HeaderProps {
@@ -15,10 +15,10 @@ function Header(props: HeaderProps) {
   const { store } = props;
 
   const [openFileSelector, { filesContent, loading }] = useFilePicker({
-    accept: '.json',
+    accept: ".json",
   });
 
-  useEffect(() => onFileContentImported(),[filesContent])
+  useEffect(() => onFileContentImported(), [filesContent]);
 
   function onFileContentImported() {
     if (filesContent.length === 0) return;
@@ -31,7 +31,9 @@ function Header(props: HeaderProps) {
   }
 
   function onExportClicked() {
-    const data = `data:text/json;chatset=utf-8,${encodeURIComponent(store.getPsiData())}`;
+    const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      store.getPsiData()
+    )}`;
     const link = document.createElement("a");
     const currentDate = moment().format("YYYY/MM/DD-HH:MM");
     link.href = data;
@@ -43,15 +45,20 @@ function Header(props: HeaderProps) {
     <div className="app-header">
       <div className="left-side-main-header">
         <div className="brand">
-          <img
-            src="https://finance.tau.ac.il/sites/finance.tau.ac.il/files/media_server/graphic-design/TAU%20NEW%20LOGO/ENG_bold.jpg"
-            alt="LOGO"
-          />
-          <img
-            className="faculty"
-            src="https://finance.tau.ac.il/sites/finance.tau.ac.il/files/media_server/graphic-design/TAU%20NEW%20LOGO/TAUAcademicUnitsLogos_10.jpg"
-            alt="LOGO"
-          />
+          <a href="https://english.tau.ac.il/" target="blank">
+            <img
+              src="https://finance.tau.ac.il/sites/finance.tau.ac.il/files/media_server/graphic-design/TAU%20NEW%20LOGO/ENG_bold.jpg"
+              alt="LOGO"
+            />
+          </a>
+
+          <a href="https://en-engineering.tau.ac.il/Engineering-Faculty-Systems-Engineering-M.Sc" target="blank">
+            <img
+              className="faculty"
+              src="https://finance.tau.ac.il/sites/finance.tau.ac.il/files/media_server/graphic-design/TAU%20NEW%20LOGO/TAUAcademicUnitsLogos_10.jpg"
+              alt="LOGO"
+            />
+          </a>
         </div>
       </div>
       <div className="header-center">Welcome to PSI app</div>

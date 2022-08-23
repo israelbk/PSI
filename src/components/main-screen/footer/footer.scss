@@ -1,0 +1,44 @@
+.app-footer {
+  height: 100px;
+  width: 100%;
+  background: rgba(54, 56, 57, 0.5);
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  border-top: 1px solid grey;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
+  .footer-content-container {
+    .check-us {
+      font-family: "Brush Script MT", cursive;
+      color: white;
+      font-size: 30px;
+    }
+    .link-badges-container {
+      display: flex;
+      cursor: pointer;
+      .clickable-icon {
+        background: rgba(54, 56, 57, 0.8);
+        width: 35px;
+        height: 35px;
+        border-radius: 35px;
+        margin-inline: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+    .link-text {
+      color: blue;
+      font-size: 11px;
+      margin-inline: 5px;
+      cursor: pointer;
+      &:hover {
+        color: blue;
+        border: 1px solid blue;
+      }
+    }
+  }
+}
