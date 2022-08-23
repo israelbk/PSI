@@ -38,7 +38,9 @@ export default class PsiInstanceStore
   }
 
   onPsiChanged() {
-    LocalStorageService.setPsi(this.getPsiData())
+    const psiData = this.getPsiData()
+    console.log(psiData)
+    LocalStorageService.setPsi(psiData)
   }
 
   toJSON(): PsiInstanceModel {
