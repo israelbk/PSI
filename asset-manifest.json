@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/PSI/static/css/main.5943c1f3.css",
+    "main.js": "/PSI/static/js/main.4cb94305.js",
+    "static/js/787.bec83755.chunk.js": "/PSI/static/js/787.bec83755.chunk.js",
+    "index.html": "/PSI/index.html",
+    "main.5943c1f3.css.map": "/PSI/static/css/main.5943c1f3.css.map",
+    "main.4cb94305.js.map": "/PSI/static/js/main.4cb94305.js.map",
+    "787.bec83755.chunk.js.map": "/PSI/static/js/787.bec83755.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5943c1f3.css",
+    "static/js/main.4cb94305.js"
+  ]
+}
