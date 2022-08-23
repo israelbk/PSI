@@ -48,8 +48,6 @@ function Header(props: HeaderProps) {
         </div>
       </div>
       <div className="header-center">Welcome to PSI app</div>
-      <span>Gai is the king!</span>
-
       <div className="right-side-main-header">
         <div className="editor-profile-container"></div>
         <Button
