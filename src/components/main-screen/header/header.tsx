@@ -23,7 +23,7 @@ function Header(props: HeaderProps) {
     const psiData = filesContent[0].content;
     store.initData(psiData);
     LocalStorageService.setPsi(psiData);
-  }, [filesContent]);
+  }, [filesContent, store]);
 
   function onImportClicked() {
     openFileSelector();
