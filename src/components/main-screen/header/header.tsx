@@ -44,7 +44,7 @@ function Header(props: HeaderProps) {
     <div className="app-header">
       <div className="left-side-main-header">
         <div className="brand">
-          <a href="https://english.tau.ac.il/" target="blank">
+          <a href="https://english.tau.ac.il/" target="blank" rel="noreferrer">
             <img
               src="https://finance.tau.ac.il/sites/finance.tau.ac.il/files/media_server/graphic-design/TAU%20NEW%20LOGO/ENG_bold.jpg"
               alt="LOGO"
@@ -53,7 +53,7 @@ function Header(props: HeaderProps) {
 
           <a
             href="https://en-engineering.tau.ac.il/Engineering-Faculty-Systems-Engineering-M.Sc"
-            target="blank"
+            target="blank" rel="noreferrer"
           >
             <img
               className="faculty"

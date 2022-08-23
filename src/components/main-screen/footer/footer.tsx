@@ -16,12 +16,12 @@ function Footer() {
             </a>
           </div>
           <div className="clickable-icon">
-            <a href="https://www.facebook.com/tau.main/" target="blank">
+            <a href="https://www.facebook.com/tau.main/" target="blank" rel="noreferrer">
               <FacebookIcon sx={{color: 'white'}}/>
             </a>
           </div>
           <div className="clickable-icon">
-            <a href="https://www.instagram.com/telavivuni/" target="blank">
+            <a href="https://www.instagram.com/telavivuni/" target="blank" rel="noreferrer">
               <InstagramIcon sx={{color: 'white'}}/>
             </a>
           </div>
@@ -31,6 +31,7 @@ function Footer() {
             href="https://he.wikipedia.org/wiki/%D7%99%D7%95%D7%A8%D7%9D_%D7%A8%D7%99%D7%99%D7%9A"
             className="link-text"
             target="_blank"
+            rel="noreferrer"
           >
             Yoram Reich
           </a>
@@ -38,6 +39,7 @@ function Footer() {
             href="https://cris.tau.ac.il/en/publications/designing-psi-an-introduction-to-the-psi-framework"
             className="link-text"
             target="_blank"
+            rel="noreferrer"
           >
             About psi
           </a>
