@@ -18,14 +18,13 @@ function Header(props: HeaderProps) {
     accept: ".json",
   });
 
-  useEffect(() => onFileContentImported(), [filesContent, onFileContentImported]);
-
-  function onFileContentImported() {
+  useEffect(() => {
     if (filesContent.length === 0) return;
     const psiData = filesContent[0].content;
     store.initData(psiData);
     LocalStorageService.setPsi(psiData);
-  }
+  }, [filesContent]);
+
   function onImportClicked() {
     openFileSelector();
   }
@@ -52,7 +51,10 @@ function Header(props: HeaderProps) {
             />
           </a>
 
-          <a href="https://en-engineering.tau.ac.il/Engineering-Faculty-Systems-Engineering-M.Sc" target="blank">
+          <a
+            href="https://en-engineering.tau.ac.il/Engineering-Faculty-Systems-Engineering-M.Sc"
+            target="blank"
+          >
             <img
               className="faculty"
               src="https://finance.tau.ac.il/sites/finance.tau.ac.il/files/media_server/graphic-design/TAU%20NEW%20LOGO/TAUAcademicUnitsLogos_10.jpg"
