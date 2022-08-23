@@ -18,7 +18,7 @@ function Header(props: HeaderProps) {
     accept: ".json",
   });
 
-  useEffect(() => onFileContentImported(), [filesContent]);
+  useEffect(() => onFileContentImported(), [filesContent, onFileContentImported]);
 
   function onFileContentImported() {
     if (filesContent.length === 0) return;
