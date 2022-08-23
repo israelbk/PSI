@@ -46,7 +46,7 @@ jobs:
         run: |
           git config --global user.email "deployer@psi.com"
           git config --global user.name "Deployer"
-          git remote set-url origin https://git@github.com/israelbk/PSI
+          git remote set-url origin https://git:${{ secrets.DEPLOY_ACTION }}@github.com/israelbk/PSI
 
           cat .git/config
       - name: npm install & deploy
