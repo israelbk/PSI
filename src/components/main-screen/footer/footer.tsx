@@ -16,12 +16,12 @@ function Footer() {
             </a>
           </div>
           <div className="clickable-icon">
-            <a href="https://www.facebook.com/tau.main/" target="blank">
+            <a href="https://www.facebook.com/tau.main/" target="blank" rel="noreferrer">
               <FacebookIcon sx={{color: 'white'}}/>
             </a>
           </div>
           <div className="clickable-icon">
-            <a href="https://www.instagram.com/telavivuni/" target="blank">
+            <a href="https://www.instagram.com/telavivuni/" target="blank" rel="noreferrer">
               <InstagramIcon sx={{color: 'white'}}/>
             </a>
           </div>
