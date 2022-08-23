@@ -6,6 +6,7 @@ import { FileDownload, FileUpload } from "@mui/icons-material";
 import moment from "moment";
 import {useFilePicker} from "use-file-picker";
 import {Button} from "@mui/material";
+import LocalStorageService from "../../../services/local-storage-service";
 
 interface HeaderProps {
   store: PsiInstanceStore;
@@ -17,8 +18,14 @@ function Header(props: HeaderProps) {
     accept: '.json',
   });
 
-  useEffect(() => console.log(filesContent),[filesContent])
+  useEffect(() => onFileContentImported(),[filesContent])
 
+  function onFileContentImported() {
+    if (filesContent.length === 0) return;
+    const psiData = filesContent[0].content;
+    store.initData(psiData);
+    LocalStorageService.setPsi(psiData);
+  }
   function onImportClicked() {
     openFileSelector();
   }

@@ -2,12 +2,13 @@ import React from "react";
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import PsiCellStore from "../../../stores/psi-cell-store";
+import { observer } from 'mobx-react';
 
 interface PsiMatrixCellProps {
   store: PsiCellStore;
 }
 
-export default function PsiMatrixCell(props: PsiMatrixCellProps) {
+function PsiMatrixCell(props: PsiMatrixCellProps) {
   const { store } = props;
 
   const [editorState, setEditorState] = React.useState(() => store.freeText);
@@ -24,3 +25,5 @@ export default function PsiMatrixCell(props: PsiMatrixCellProps) {
     </div>
   );
 }
+
+export default observer(PsiMatrixCell)
