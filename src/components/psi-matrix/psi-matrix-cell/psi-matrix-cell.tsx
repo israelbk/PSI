@@ -11,21 +11,12 @@ interface PsiMatrixCellProps {
 export default function PsiMatrixCell(props: PsiMatrixCellProps) {
   const { store } = props;
 
-  const [editorState, setEditorState] = React.useState(() =>
-      store.freeText
-  );
-
-  const debounced = useCallback(
-      () => debounce(() => {
-      store.setFreeText(editorState);
-      store.onCellChanged();
-    }, 1000),
-    [editorState, store]
-  );
+  const [editorState, setEditorState] = React.useState(() => store.freeText);
 
   const onEditorStateChange = (state: EditorState) => {
     setEditorState(state);
-    debounced();
+    store.setFreeText(editorState);
+    store.onCellChanged();
   };
 
   return (
