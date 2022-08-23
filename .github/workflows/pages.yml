@@ -51,7 +51,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.DEPLOY_ACTION }}
-          publish_dir: ./build
+          publish_dir: ./public
+
     
 #       - name: Checkout
 #         uses: actions/checkout@v3
