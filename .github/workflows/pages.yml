@@ -44,7 +44,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm install & build 
         env:
-          BUILD_PATH: ./public
+          BUILD_PATH: ./deploy
         working-directory: ./psi-app
         run: |
           npm ci
@@ -53,7 +53,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.DEPLOY_ACTION }}
-          publish_dir: ./public
+          publish_dir: ./deploy
 
     
 #       - name: Checkout
