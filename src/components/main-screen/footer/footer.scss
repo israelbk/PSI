@@ -17,7 +17,7 @@
       display: flex;
       cursor: pointer;
       .clickable-icon {
-        background: rgba(54, 56, 57, 0.8);
+        background: #001721;
         width: 35px;
         height: 35px;
         border-radius: 35px;
@@ -25,6 +25,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        a{
+          height: 25px;
+        }
         &:hover {
           transform: scale(1.1);
         }
