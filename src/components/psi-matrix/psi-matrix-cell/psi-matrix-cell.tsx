@@ -11,18 +11,22 @@ interface PsiMatrixCellProps {
 function PsiMatrixCell(props: PsiMatrixCellProps) {
   const { store } = props;
 
-  const [editorState, setEditorState] = React.useState(() => store.freeText);
+  const [editorState, setEditorState] = React.useState(() => store.freeTextState);
 
   const onEditorStateChange = (state: EditorState) => {
     setEditorState(state);
     store.setFreeText(editorState);
-    store.onCellChanged();
+    // store.onCellChanged();
   };
 
   return (
-    <div style={{ width: "500px" }}>
-      <Editor editorState={editorState} onChange={onEditorStateChange} />
-    </div>
+      <>
+        <div style={{ width: "500px" }}>
+          <Editor editorState={editorState} onChange={onEditorStateChange} />
+        </div>
+        <span>{JSON.stringify(store.modelData)}</span>
+      </>
+
   );
 }
 

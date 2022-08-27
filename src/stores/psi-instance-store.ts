@@ -1,4 +1,4 @@
-import {action, computed, IObservableArray, observable} from "mobx";
+import {action, autorun, computed, IObservableArray, observable} from "mobx";
 import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
@@ -8,43 +8,67 @@ export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
 {
   @observable psisStore!: IObservableArray<SinglePsiStore>;
-  @observable currentPsiIndex;
+  @observable currentPsiIndex: number;
+  @observable appName: string;
 
   constructor() {
     this.currentPsiIndex = 0;
+    this.appName = "Welcome to PSI app";
     this.initData();
+    autorun(() => {
+      this.onPsiChanged();
+    });
+  }
+
+  @action setAppName(newName: string) {
+    this.appName = newName;
+    // this.onPsiChanged()
   }
 
   @action updateFromJson(json: PsiInstanceModel) {
-    const psiStores = json.psiModels.map((model) =>  new SinglePsiStore(this, model))
+    this.appName = json.appName;
+    const psiStores = json.psiModels.map(
+      (model) => new SinglePsiStore(this, model)
+    );
     this.psisStore = observable.array(psiStores);
   }
-
   @action initData(data?: string) {
     const localStorageData = data ?? LocalStorageService.getPsi();
     if (localStorageData != null) {
       this.updateFromJson(JSON.parse(localStorageData));
     } else {
-      this.psisStore = observable.array([ new SinglePsiStore(this)]);
+      this.psisStore = observable.array([new SinglePsiStore(this)]);
     }
   }
 
-  @computed get currentPsiStore(): SinglePsiStore{
+  @computed get currentPsiStore(): SinglePsiStore {
+    console.log(this.psiJson);
     return this.psisStore![this.currentPsiIndex];
   }
 
-  getPsiData(){
-    return JSON.stringify(this.toJSON())
-  }
-
   onPsiChanged() {
-    const psiData = this.getPsiData()
-    LocalStorageService.setPsi(psiData)
+    LocalStorageService.setPsi(this.psiJson);
   }
 
-  toJSON(): PsiInstanceModel {
+  toJSON(){
     return {
-      psiModels: this.psisStore.map(store => store.toJSON())
-    }
+      psiModels: this.psisStore.map((store) => store.toJSON()),
+      appName: this.appName,
+    };
+  }
+
+  @computed get modelData(): PsiInstanceModel {
+    // return this.toJSON()
+    return {
+      psiModels: this.psisStore.map((store) => store.modelData),
+      appName: this.appName,
+    };
+  }
+
+
+  @computed get psiJson(): string {
+    const json = JSON.stringify(this.modelData);
+    console.log('instance store' , json)
+    return json;
   }
 }

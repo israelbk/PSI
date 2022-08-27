@@ -1,4 +1,4 @@
-import { action, IObservableArray, observable } from "mobx";
+import {action, computed, IObservableArray, observable} from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import SinglePsiModel from "../models/single-psi-model";
 import PsiInstanceStore from "./psi-instance-store";
@@ -56,7 +56,16 @@ export default class SinglePsiStore
     }
   }
 
+  @computed get modelData(): SinglePsiModel{
+    const json=  {
+      id: this.psiId,
+      psiRowModles: this.psiRowsStore?.map(store => store.modelData)
+    }
+    console.log('single psi store' , json)
+    return json;
+  }
+
   onCellChanged() {
-    this.psiInstanceStore.onPsiChanged();
+    // this.psiInstanceStore.onPsiChanged();
   }
 }
