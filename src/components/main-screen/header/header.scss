@@ -35,12 +35,13 @@
     }
   }
 
-  .header-center {
+  .app-name {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    min-width: 200px;
   }
 
   .right-side-main-header {

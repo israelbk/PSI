@@ -7,6 +7,7 @@ import moment from "moment";
 import { useFilePicker } from "use-file-picker";
 import { Button } from "@mui/material";
 import LocalStorageService from "../../../services/local-storage-service";
+import InlineTextField from "../../inline-render-text-number-field/inline-render-text-number-field";
 
 interface HeaderProps {
   store: PsiInstanceStore;
@@ -31,7 +32,7 @@ function Header(props: HeaderProps) {
 
   function onExportClicked() {
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      store.getPsiData()
+      store.psiJson
     )}`;
     const link = document.createElement("a");
     const currentDate = moment().format("YYYY/MM/DD-HH:MM");
@@ -53,7 +54,8 @@ function Header(props: HeaderProps) {
 
           <a
             href="https://en-engineering.tau.ac.il/Engineering-Faculty-Systems-Engineering-M.Sc"
-            target="blank" rel="noreferrer"
+            target="blank"
+            rel="noreferrer"
           >
             <img
               className="faculty"
@@ -63,7 +65,12 @@ function Header(props: HeaderProps) {
           </a>
         </div>
       </div>
-      <div className="header-center">Welcome to PSI app</div>
+      <div className="app-name">
+        <InlineTextField
+          onBlur={(value) => store.setAppName(value)}
+          initialInput={store.appName}
+        />
+      </div>
       <div className="right-side-main-header">
         <div className="editor-profile-container"></div>
         <Button
