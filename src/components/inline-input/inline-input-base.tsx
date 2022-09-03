@@ -52,7 +52,7 @@ export default function InlineInputBase(props: InlineInputBaseProps) {
       return "Required";
     }
     return undefined;
-  }, [value, isEmpty, isDirty, isInEditMode, error, isRequired]);
+  }, [isEmpty, isDirty, isInEditMode, error, isRequired]);
 
   useEffect(() => {
     if (!isInEditMode) {

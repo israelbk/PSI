@@ -25,7 +25,7 @@ function PsiActions(props: PsiActionsProps) {
     accept: ".json",
   });
 
-  useEffect(() => onFileImported(), [filesContent, store]);
+  useEffect(() => onFileImported(), [filesContent, store, onFileImported]);
 
   function onFileImported() {
     if (filesContent.length === 0) {
