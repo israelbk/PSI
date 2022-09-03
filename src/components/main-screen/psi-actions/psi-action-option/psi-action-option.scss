@@ -1,0 +1,27 @@
+.psi-single-action-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  padding: 7px 10px;
+  font-size: 15px;
+
+  .action-icon {
+    width: 14px;
+    height: 14px;
+    margin-inline-end: 10px;
+  }
+
+  .custom-field-title {
+  }
+
+  &:hover {
+    background-color: #f8f8f8;
+    width: 92%;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}

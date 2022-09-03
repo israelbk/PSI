@@ -1,0 +1,53 @@
+.tippy-box {
+	border-radius: 4px;
+
+	.tippy-content {
+		line-height: normal;
+		font-size: 12px;
+	}
+}
+
+.tippy-box[data-theme~='popover'] {
+	color: #26323d;
+	box-shadow: 0 0 20px 4px rgba(154, 161, 177, 0.15), 0 4px 80px -8px rgba(36, 40, 47, 0.25),
+		0 4px 4px -2px rgba(91, 94, 105, 0.15);
+	background-color: #fff;
+	overflow: hidden;
+	font-weight: normal;
+
+	.tippy-content {
+		padding: 0;
+		text-align: start;
+		line-height: unset;
+		font-size: unset;
+		font-weight: unset;
+	}
+
+	&[data-placement^='top'] > .tippy-arrow:before {
+		border-top-color: #fff;
+	}
+
+	&[data-placement^='bottom'] > .tippy-arrow:before {
+		border-bottom-color: #fff;
+	}
+
+	&[data-placement^='left'] > .tippy-arrow:before {
+		border-left-color: #fff;
+	}
+
+	&[data-placement^='right'] > .tippy-arrow:before {
+		border-right-color: #fff;
+	}
+
+	& > .tippy-backdrop {
+		background-color: #fff;
+	}
+
+	& > .tippy-svg-arrow {
+		fill: #fff;
+	}
+}
+
+.tippy-child-container {
+	display: inline;
+}

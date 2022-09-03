@@ -1,0 +1,21 @@
+.psi-scroller-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  gap: 10px;
+
+  .psi-scroller-arrow{
+    cursor: pointer;
+    &:hover{
+      transform: scale(1.2);
+    }
+    &.disabled{
+      opacity: 0.5;
+      cursor: not-allowed;
+      &:hover{
+        transform: none;
+      }
+    }
+  }
+}

@@ -7,6 +7,8 @@ import moment from "moment";
 import { useFilePicker } from "use-file-picker";
 import { Button } from "@mui/material";
 import LocalStorageService from "../../../services/local-storage-service";
+import InlineTextField from "../../inline-render-text-number-field/inline-render-text-number-field";
+import {observer} from "mobx-react";
 
 interface HeaderProps {
   store: PsiInstanceStore;
@@ -20,9 +22,14 @@ function Header(props: HeaderProps) {
 
   useEffect(() => {
     if (filesContent.length === 0) return;
-    const psiData = filesContent[0].content;
-    store.initData(psiData);
-    LocalStorageService.setPsi(psiData);
+    try {
+      const psiData = filesContent[0].content;
+      store.initData(psiData);
+      LocalStorageService.setPsi(psiData);
+    } catch (err){
+      alert("Sorry but the imported file format is not as expected");
+      return;
+    }
   }, [filesContent, store]);
 
   function onImportClicked() {
@@ -31,17 +38,18 @@ function Header(props: HeaderProps) {
 
   function onExportClicked() {
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      store.getPsiData()
+      JSON.stringify(store.toJSON())
     )}`;
     const link = document.createElement("a");
     const currentDate = moment().format("YYYY/MM/DD-HH:MM");
     link.href = data;
-    link.download = `PSI-${currentDate}.json`;
+    link.download = `PSI-Project-${currentDate}.json`;
     link.click();
   }
 
   return (
     <div className="app-header">
+      {/*<span>{store.psiJson}</span>*/}
       <div className="left-side-main-header">
         <div className="brand">
           <a href="https://english.tau.ac.il/" target="blank" rel="noreferrer">
@@ -53,7 +61,8 @@ function Header(props: HeaderProps) {
 
           <a
             href="https://en-engineering.tau.ac.il/Engineering-Faculty-Systems-Engineering-M.Sc"
-            target="blank" rel="noreferrer"
+            target="blank"
+            rel="noreferrer"
           >
             <img
               className="faculty"
@@ -63,7 +72,12 @@ function Header(props: HeaderProps) {
           </a>
         </div>
       </div>
-      <div className="header-center">Welcome to PSI app</div>
+      <div className="app-name">
+        <InlineTextField
+          onBlur={(value) => store.setAppName(value)}
+          initialInput={store.appName}
+        />
+      </div>
       <div className="right-side-main-header">
         <div className="editor-profile-container"></div>
         <Button
@@ -88,4 +102,4 @@ function Header(props: HeaderProps) {
   );
 }
 
-export default Header;
+export default observer(Header);

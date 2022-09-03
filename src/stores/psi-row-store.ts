@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import {action, computed, observable} from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellStore from "./psi-cell-store";
 import PsiRowModel from "../models/psi-row-model";
@@ -50,5 +50,22 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
         how: this.how.toJSON(),
       },
     };
+  }
+
+  @computed get modelData(): PsiRowModel{
+    const json = {
+      rowNum: this.rowNum.toString(),
+      phase: this.phase,
+      data: {
+        what: this.what.modelData,
+        who: this.who.modelData,
+        how: this.how.modelData,
+      },
+    }
+
+
+    console.log('row store' , json);
+    return json;
+    // return JSON.stringify(json);
   }
 }

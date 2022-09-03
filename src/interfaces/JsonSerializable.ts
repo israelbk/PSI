@@ -1,6 +1,6 @@
  interface JsonSerializable<T>{
     updateFromJson: (json: T) => void;
-     toJSON:() => T;
+    toJSON:() => T;
 }
 
 export default JsonSerializable;
