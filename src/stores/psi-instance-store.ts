@@ -1,4 +1,4 @@
-import {action, autorun, computed, IObservableArray, observable, reaction} from "mobx";
+import {action, computed, IObservableArray, observable, reaction} from "mobx";
 import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
