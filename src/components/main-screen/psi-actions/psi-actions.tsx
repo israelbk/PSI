@@ -25,9 +25,7 @@ function PsiActions(props: PsiActionsProps) {
     accept: ".json",
   });
 
-  useEffect(() => onFileImported(), [filesContent, store, onFileImported]);
-
-  function onFileImported() {
+  useEffect(() => {
     if (filesContent.length === 0) {
       return;
     }
@@ -40,7 +38,7 @@ function PsiActions(props: PsiActionsProps) {
       alert("Sorry but the imported file format is not as expected");
       return;
     }
-  }
+  }, [filesContent, store]);
 
   function createNewPsi() {
     store.createNewPsi();
