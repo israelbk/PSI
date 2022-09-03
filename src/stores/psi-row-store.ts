@@ -66,5 +66,6 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
 
     console.log('row store' , json);
     return json;
+    // return JSON.stringify(json);
   }
 }

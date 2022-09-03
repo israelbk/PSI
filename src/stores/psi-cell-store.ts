@@ -70,5 +70,6 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
 
     console.log("cell store", json);
     return json;
+    // return JSON.stringify(json);
   }
 }

@@ -8,6 +8,7 @@ import { useFilePicker } from "use-file-picker";
 import { Button } from "@mui/material";
 import LocalStorageService from "../../../services/local-storage-service";
 import InlineTextField from "../../inline-render-text-number-field/inline-render-text-number-field";
+import {observer} from "mobx-react";
 
 interface HeaderProps {
   store: PsiInstanceStore;
@@ -43,6 +44,7 @@ function Header(props: HeaderProps) {
 
   return (
     <div className="app-header">
+      {/*<span>{store.psiJson}</span>*/}
       <div className="left-side-main-header">
         <div className="brand">
           <a href="https://english.tau.ac.il/" target="blank" rel="noreferrer">
@@ -95,4 +97,4 @@ function Header(props: HeaderProps) {
   );
 }
 
-export default Header;
+export default observer(Header);

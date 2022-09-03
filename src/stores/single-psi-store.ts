@@ -63,6 +63,7 @@ export default class SinglePsiStore
     }
     console.log('single psi store' , json)
     return json;
+    // return JSON.stringify(json);
   }
 
   onCellChanged() {

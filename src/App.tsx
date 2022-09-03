@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import MainScreen from "./components/main-screen/main-screen";
+import {observer} from "mobx-react";
 
 function App() {
   return (
@@ -10,4 +11,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

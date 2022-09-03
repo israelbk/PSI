@@ -24,7 +24,8 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
         <div style={{ width: "500px" }}>
           <Editor editorState={editorState} onChange={onEditorStateChange} />
         </div>
-        <span>{JSON.stringify(store.modelData)}</span>
+        {/*<span>{JSON.stringify(store.modelData)}</span>*/}
+        {/*<span>{store.modelData}</span>*/}
       </>
 
   );
