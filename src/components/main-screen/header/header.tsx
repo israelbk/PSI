@@ -22,9 +22,14 @@ function Header(props: HeaderProps) {
 
   useEffect(() => {
     if (filesContent.length === 0) return;
-    const psiData = filesContent[0].content;
-    store.initData(psiData);
-    LocalStorageService.setPsi(psiData);
+    try {
+      const psiData = filesContent[0].content;
+      store.initData(psiData);
+      LocalStorageService.setPsi(psiData);
+    } catch (err){
+      alert("Sorry but the imported file format is not as expected");
+      return;
+    }
   }, [filesContent, store]);
 
   function onImportClicked() {
@@ -33,12 +38,12 @@ function Header(props: HeaderProps) {
 
   function onExportClicked() {
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      store.psiJson
+      JSON.stringify(store.toJSON())
     )}`;
     const link = document.createElement("a");
     const currentDate = moment().format("YYYY/MM/DD-HH:MM");
     link.href = data;
-    link.download = `PSI-${currentDate}.json`;
+    link.download = `PSI-Project-${currentDate}.json`;
     link.click();
   }
 

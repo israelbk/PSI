@@ -1,8 +1,8 @@
-import {action, computed, IObservableArray, observable} from "mobx";
+import { action, computed, IObservableArray, observable } from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import SinglePsiModel from "../models/single-psi-model";
 import PsiInstanceStore from "./psi-instance-store";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 import PsiRowStore from "./psi-row-store";
 
 export default class SinglePsiStore
@@ -15,7 +15,7 @@ export default class SinglePsiStore
     readonly psiInstanceStore: PsiInstanceStore,
     SinglePsiModel?: SinglePsiModel
   ) {
-    this.psiId = SinglePsiModel?.id ?? uuid();
+    this.psiId = SinglePsiModel?.psiData.id ?? uuid();
     this.initData(SinglePsiModel);
   }
 
@@ -44,24 +44,28 @@ export default class SinglePsiStore
 
   @action updateFromJson(json: SinglePsiModel) {
     this.psiRowsStore = observable.array(
-      json.psiRowModles.map((model) => new PsiRowStore(this, model))
+      json.psiData.psiRowModels.map((model) => new PsiRowStore(this, model))
     );
-    this.psiId = json.id;
+    this.psiId = json.psiData.id;
   }
 
   toJSON(): SinglePsiModel {
     return {
-      id: this.psiId,
-      psiRowModles: this.psiRowsStore?.map(store => store.toJSON())
-    }
+      psiData: {
+        id: this.psiId,
+        psiRowModels: this.psiRowsStore?.map((store) => store.modelData),
+      },
+    };
   }
 
-  @computed get modelData(): SinglePsiModel{
-    const json=  {
-      id: this.psiId,
-      psiRowModles: this.psiRowsStore?.map(store => store.modelData)
-    }
-    console.log('single psi store' , json)
+  @computed get modelData(): SinglePsiModel {
+    const json = {
+      psiData: {
+        id: this.psiId,
+        psiRowModels: this.psiRowsStore?.map((store) => store.modelData),
+      },
+    };
+    console.log("single psi store", json);
     return json;
     // return JSON.stringify(json);
   }

@@ -31,6 +31,18 @@ export default class PsiInstanceStore
     this.currentPsiIndex = this.psisStore.length-1;
   }
 
+  @action addNewPsi(newPsi: SinglePsiStore) {
+    this.psisStore.push(newPsi)
+    this.currentPsiIndex = this.psisStore.length-1;
+  }
+
+  @action DeleteCurrentPsi() {
+    if(this.psisStore.length === 1)
+      return;
+
+    this.psisStore.splice(this.currentPsiIndex,1)
+  }
+
   @action setAppName(newName: string) {
     this.appName = newName;
     // this.onPsiChanged()
@@ -38,6 +50,7 @@ export default class PsiInstanceStore
 
   @action updateFromJson(json: PsiInstanceModel) {
     this.appName = json.appName;
+    this.currentPsiIndex = parseInt(json.currentPsiIndex) || 0;
     const psiStores = json.psiModels.map(
       (model) => new SinglePsiStore(this, model)
     );
@@ -66,6 +79,7 @@ export default class PsiInstanceStore
     return {
       psiModels: this.psisStore.map((store) => store.toJSON()),
       appName: this.appName,
+      currentPsiIndex: this.currentPsiIndex.toString(),
     };
   }
 
@@ -74,6 +88,7 @@ export default class PsiInstanceStore
     const json = {
       psiModels: this.psisStore.map((store) => store.modelData),
       appName: this.appName,
+      currentPsiIndex: this.currentPsiIndex.toString(),
     };
 
     return json
