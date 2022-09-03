@@ -57,14 +57,14 @@ export function Tooltip({ arrow = true, wrapperClass, wrapperStyle, theme, child
 		<Tippy
 			inertia
 			{...props}
-			arrow={arrow ?? theme != 'popover'}
+			arrow={arrow ?? theme !== 'popover'}
 			trigger={trigger}
 			placement={placement}
 			animation="shift-away-subtle"
 			plugins={[followCursor, inlinePositioning]}
 			theme={theme}
 			maxWidth={350}
-			appendTo={props.appendTo == 'body' ? () => document.body : props.appendTo ?? (() => document.body)}
+			appendTo={props.appendTo === 'body' ? () => document.body : props.appendTo ?? (() => document.body)}
 		>
 			<div className={getClasses('tippy-child-container', wrapperClass)} style={wrapperStyle}>
 				{children}

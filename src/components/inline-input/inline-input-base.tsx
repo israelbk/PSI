@@ -38,7 +38,7 @@ export default function InlineInputBase(props: InlineInputBaseProps) {
   const [isDirty, setIsDirty] = useState<boolean>();
 
   useEffect(() => {
-    if (isInEditMode && !isDirty && value != initialEditedValue) {
+    if (isInEditMode && !isDirty && value !== initialEditedValue) {
       setIsDirty(true);
     }
   }, [isInEditMode, isDirty, value, initialEditedValue]);
@@ -47,7 +47,7 @@ export default function InlineInputBase(props: InlineInputBaseProps) {
 
   const errorMsg = useMemo(() => {
     if (!isDirty || !isInEditMode) return undefined;
-    if (error != undefined) return error;
+    if (error != null) return error;
     if (isEmpty && isRequired) {
       return "Required";
     }

@@ -21,7 +21,7 @@ function PsiActions(props: PsiActionsProps) {
   const [psiActionsIsOpen, setPsiActionsIsOpen] = useState(false);
   const disableDeletePsi = store.psisStore.length === 1;
 
-  const [openFileSelector, { filesContent, loading }] = useFilePicker({
+  const [openFileSelector, { filesContent }] = useFilePicker({
     accept: ".json",
   });
 
