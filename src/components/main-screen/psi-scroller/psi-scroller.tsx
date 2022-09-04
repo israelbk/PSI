@@ -1,9 +1,12 @@
+import React, {useState} from 'react';
 import PsiInstanceStore from "../../../stores/psi-instance-store";
-import { observer } from "mobx-react";
+import {Observer, observer } from "mobx-react";
 import "./psi-scroller.scss";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { getClasses } from "../../../utils/utils";
+import {useEffect} from "react";
+import {runInAction} from "mobx";
 
 interface PsiScrollerProps {
   store: PsiInstanceStore;
@@ -16,15 +19,24 @@ function PsiScroller(props: PsiScrollerProps) {
   }`;
 
   function onLeftArrowClicked(){
-      if(store.currentPsiIndex !== 0){
+      debugger;
+      runInAction(() => {
+
+          if(store.currentPsiIndex !== 0){
           store.setCurrentPsiIndex(store.currentPsiIndex-1)
       }
+
+  })
   }
 
   function onRightArrowClicked(){
+      debugger;
+      runInAction(() => {
       if(store.currentPsiIndex + 1 < store.psisStore.length){
           store.setCurrentPsiIndex(store.currentPsiIndex+1)
       }
+
+      })
   }
 
   return (
@@ -36,6 +48,7 @@ function PsiScroller(props: PsiScrollerProps) {
         )}
         onClick={()=>onLeftArrowClicked()}
       />
+        <Observer>{() => <span style={{ color: 'red'}} onClick={() => runInAction(() => {store.currentPsiIndex++})}>{store.currentPsiIndex}</span> }</Observer>
       <div>{psiIndexString}</div>
       <ArrowRightIcon
         className={getClasses(

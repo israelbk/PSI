@@ -16,9 +16,9 @@ export default class PsiInstanceStore
     this.appName = "Welcome to PSI app";
     // autorun( this.onPsiChanged );
     this.initData();
-    reaction(
-        () => this.psiJson,
-        (psiJson) => LocalStorageService.setPsi(psiJson));
+    // reaction(
+    //     () => this.psiJson,
+    //     (psiJson) => LocalStorageService.setPsi(psiJson));
   }
 
   @action setCurrentPsiIndex(newIndex: number) {
@@ -57,12 +57,13 @@ export default class PsiInstanceStore
     this.psisStore = observable.array(psiStores);
   }
   @action initData(data?: string) {
-    const localStorageData = data ?? LocalStorageService.getPsi();
-    if (localStorageData != null) {
-      this.updateFromJson(JSON.parse(localStorageData));
-    } else {
+    // const localStorageData = data ?? LocalStorageService.getPsi();
+    // if (localStorageData != null) {
+    //   this.updateFromJson(JSON.parse(localStorageData));
+    // } else {
+    //   this.psisStore = observable.array([new SinglePsiStore(this)]);
+    // }
       this.psisStore = observable.array([new SinglePsiStore(this)]);
-    }
   }
 
   @computed get currentPsiStore(): SinglePsiStore {

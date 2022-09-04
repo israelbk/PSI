@@ -7,6 +7,17 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 function Footer() {
   return (
     <div className="app-footer">
+      <div className='here-are-my-credits-wat-wat'>
+        <span>Designed and developed by: &nbsp;</span>
+        <a
+            href="https://www.linkedin.com/in/israel-ben-kalifa/"
+            className="link-text"
+            target="_blank"
+            rel="noreferrer"
+        >
+          Israel bk
+        </a>
+      </div>
       <div className="footer-content-container">
         <div className="check-us">Check us on</div>
         <div className="link-badges-container">
