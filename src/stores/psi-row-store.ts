@@ -37,22 +37,6 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
     this.how = new PsiCellStore(this, json.data!.how);
   }
 
-  onCellChanged() {
-    this.singlePsiStore.onCellChanged();
-  }
-
-  toJSON(): PsiRowModel {
-    return {
-      rowNum: this.rowNum.toString(),
-      phase: this.phase,
-      data: {
-        what: this.what.toJSON(),
-        who: this.who.toJSON(),
-        how: this.how.toJSON(),
-      },
-    };
-  }
-
   @computed get modelData(): PsiRowModel{
     const json = {
       rowNum: this.rowNum.toString(),
@@ -63,10 +47,6 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
         how: this.how.modelData,
       },
     }
-
-
-    console.log('row store' , json);
     return json;
-    // return JSON.stringify(json);
   }
 }

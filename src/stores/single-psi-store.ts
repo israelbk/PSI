@@ -50,15 +50,6 @@ export default class SinglePsiStore
     this.psiId = json.psiData.id;
   }
 
-  toJSON(): SinglePsiModel {
-    return {
-      psiData: {
-        id: this.psiId,
-        psiRowModels: this.psiRowsStore?.map((store) => store.modelData),
-      },
-    };
-  }
-
   @computed get modelData(): SinglePsiModel {
     const json = {
       psiData: {
@@ -67,10 +58,5 @@ export default class SinglePsiStore
       },
     };
     return json;
-    // return JSON.stringify(json);
-  }
-
-  onCellChanged() {
-    // this.psiInstanceStore.onPsiChanged();
   }
 }

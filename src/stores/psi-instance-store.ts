@@ -46,8 +46,10 @@ export default class PsiInstanceStore
 
   @action DeleteCurrentPsi() {
     if (this.psisStore.length === 1) return;
-
     this.psisStore.splice(this.currentPsiIndex, 1);
+    if (this.currentPsiIndex === this.psisStore.length){
+      this.currentPsiIndex--;
+    }
   }
 
   @action setAppName(newName: string) {
@@ -80,14 +82,6 @@ export default class PsiInstanceStore
   onPsiChanged = () => {
     LocalStorageService.setPsi(this.psiJson);
   };
-
-  toJSON() {
-    return {
-      psiModels: this.psisStore.map((store) => store.toJSON()),
-      appName: this.appName,
-      currentPsiIndex: this.currentPsiIndex.toString(),
-    };
-  }
 
   @computed get modelData(): PsiInstanceModel {
     const json = {

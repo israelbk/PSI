@@ -19,7 +19,6 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
   const onEditorStateChange = (state: EditorState) => {
     setEditorState(state);
     store.setFreeText(editorState);
-    // store.onCellChanged();
   };
 
   return (

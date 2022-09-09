@@ -33,23 +33,11 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     this.freeTextState = newValue;
   }
 
-  onCellChanged() {
-    this.psiRowStore.onCellChanged();
-  }
-
   @action updateFromJson(json: PsiCellModel) {
     const contentState = convertFromRaw(JSON.parse(json.freeText));
     this.freeTextState = EditorState.createWithContent(contentState);
     this.row = Number(json.row);
     this.column = Number(json.column);
-  }
-
-  toJSON(): PsiCellModel {
-    return {
-      freeText: JSON.stringify(convertToRaw(this.freeTextState.getCurrentContent())),
-      row: this.row.toString(),
-      column: this.column.toString(),
-    };
   }
 
   @computed get freeTextToSave(): string {
@@ -68,6 +56,5 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     };
 
     return json;
-    // return JSON.stringify(json);
   }
 }
