@@ -10,7 +10,6 @@ import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
-import { ObservableValue } from "mobx/dist/types/observablevalue";
 
 export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
@@ -91,7 +90,6 @@ export default class PsiInstanceStore
   }
 
   @computed get modelData(): PsiInstanceModel {
-    // return this.toJSON()
     const json = {
       psiModels: this.psisStore.map((store) => store.modelData),
       appName: this.appName,
