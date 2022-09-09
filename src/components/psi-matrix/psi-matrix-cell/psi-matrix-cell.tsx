@@ -2,7 +2,7 @@ import React from "react";
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import PsiCellStore from "../../../stores/psi-cell-store";
-import { observer } from 'mobx-react';
+import { observer } from "mobx-react";
 
 interface PsiMatrixCellProps {
   store: PsiCellStore;
@@ -11,7 +11,9 @@ interface PsiMatrixCellProps {
 function PsiMatrixCell(props: PsiMatrixCellProps) {
   const { store } = props;
 
-  const [editorState, setEditorState] = React.useState(() => store.freeTextState);
+  const [editorState, setEditorState] = React.useState(
+    () => store.freeTextState
+  );
 
   const onEditorStateChange = (state: EditorState) => {
     setEditorState(state);
@@ -20,15 +22,15 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
   };
 
   return (
-      <>
-        <div style={{ width: "500px" }}>
-          <Editor editorState={editorState} onChange={onEditorStateChange} />
-        </div>
-        {/*<span>{JSON.stringify(store.modelData)}</span>*/}
-        {/*<span>{store.modelData}</span>*/}
-      </>
-
+    <>
+      <div style={{ width: "500px" }}>
+        <Editor editorState={editorState} onChange={onEditorStateChange} />
+      </div>
+      {/*<span>{store.freeTextToSave}</span>*/}
+      {/*<span>{JSON.stringify(store.modelData)}</span>*/}
+      {/*<span>{store.modelData}</span>*/}
+    </>
   );
 }
 
-export default observer(PsiMatrixCell)
+export default observer(PsiMatrixCell);

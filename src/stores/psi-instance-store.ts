@@ -1,8 +1,16 @@
-import {action, computed, IObservableArray, observable, reaction} from "mobx";
+import {
+  action,
+  computed,
+  IObservableArray,
+  makeObservable,
+  observable,
+  reaction,
+} from "mobx";
 import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
+import { ObservableValue } from "mobx/dist/types/observablevalue";
 
 export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
@@ -12,35 +20,35 @@ export default class PsiInstanceStore
   @observable appName: string;
 
   constructor() {
+    makeObservable(this);
     this.currentPsiIndex = 0;
     this.appName = "Welcome to PSI app";
     // autorun( this.onPsiChanged );
     this.initData();
     reaction(
-        () => this.psiJson,
-        (psiJson) => LocalStorageService.setPsi(psiJson));
+      () => this.psiJson,
+      (psiJson) => LocalStorageService.setPsi(psiJson)
+    );
   }
 
   @action setCurrentPsiIndex(newIndex: number) {
     this.currentPsiIndex = newIndex;
-    console.log('setCurrentPsiIndex', newIndex)
   }
 
   @action createNewPsi() {
-    this.psisStore.push(new SinglePsiStore(this))
-    this.currentPsiIndex = this.psisStore.length-1;
+    this.psisStore.push(new SinglePsiStore(this));
+    this.currentPsiIndex = this.psisStore.length - 1;
   }
 
   @action addNewPsi(newPsi: SinglePsiStore) {
-    this.psisStore.push(newPsi)
-    this.currentPsiIndex = this.psisStore.length-1;
+    this.psisStore.push(newPsi);
+    this.currentPsiIndex = this.psisStore.length - 1;
   }
 
   @action DeleteCurrentPsi() {
-    if(this.psisStore.length === 1)
-      return;
+    if (this.psisStore.length === 1) return;
 
-    this.psisStore.splice(this.currentPsiIndex,1)
+    this.psisStore.splice(this.currentPsiIndex, 1);
   }
 
   @action setAppName(newName: string) {
@@ -56,6 +64,7 @@ export default class PsiInstanceStore
     );
     this.psisStore = observable.array(psiStores);
   }
+
   @action initData(data?: string) {
     const localStorageData = data ?? LocalStorageService.getPsi();
     if (localStorageData != null) {
@@ -66,16 +75,14 @@ export default class PsiInstanceStore
   }
 
   @computed get currentPsiStore(): SinglePsiStore {
-    console.log(this.psiJson);
     return this.psisStore![this.currentPsiIndex];
   }
 
   onPsiChanged = () => {
-    console.log("onPsiChanged" , this.psiJson)
     LocalStorageService.setPsi(this.psiJson);
-  }
+  };
 
-  toJSON(){
+  toJSON() {
     return {
       psiModels: this.psisStore.map((store) => store.toJSON()),
       appName: this.appName,
@@ -91,12 +98,10 @@ export default class PsiInstanceStore
       currentPsiIndex: this.currentPsiIndex.toString(),
     };
 
-    return json
+    return json;
   }
 
-
   @computed get psiJson(): string {
-    console.log('instance store', this.modelData)
     const json = this.modelData;
     return JSON.stringify(json);
   }

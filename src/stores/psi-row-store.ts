@@ -1,4 +1,4 @@
-import {action, computed, observable} from "mobx";
+import {action, computed, makeObservable, observable} from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellStore from "./psi-cell-store";
 import PsiRowModel from "../models/psi-row-model";
@@ -15,6 +15,7 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
     readonly singlePsiStore: SinglePsiStore,
     psiRowModel: PsiRowModel
   ) {
+    makeObservable(this);
     this.initData(psiRowModel);
   }
 
