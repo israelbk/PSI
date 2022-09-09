@@ -38,7 +38,7 @@ function Header(props: HeaderProps) {
 
   function onExportClicked() {
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(store.toJSON())
+      JSON.stringify(store.modelData)
     )}`;
     const link = document.createElement("a");
     const currentDate = moment().format("YYYY/MM/DD-HH:MM");
@@ -75,7 +75,7 @@ function Header(props: HeaderProps) {
       <div className="app-name">
         <InlineTextField
           onBlur={(value) => store.setAppName(value)}
-          initialInput={store.appName}
+          appName={store.appName}
         />
       </div>
       <div className="right-side-main-header">

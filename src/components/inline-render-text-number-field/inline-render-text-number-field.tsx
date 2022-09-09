@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InlineInputBase from "../inline-input/inline-input-base";
+import { observer } from "mobx-react";
 
 interface InlineRenderTextNumberFieldProps {
-  initialInput: string;
+  appName: string;
   onBlur: (value: string) => void;
 }
 
 function InlineTextField({
-  initialInput,
+  appName,
   onBlur,
 }: InlineRenderTextNumberFieldProps): JSX.Element {
-  const [value, setValue] = useState<string>(initialInput ?? 'Welcome to PSI App');
+  const [value, setValue] = useState<string>(appName ?? "Welcome to PSI App");
+  useEffect(() => setValue(appName), [appName]);
 
   return (
-    <InlineInputBase value={value} isRequired={true} isEditDisabled={false} disallowExitEditModeWhileInvalid={true}>
+    <InlineInputBase
+      value={value}
+      isRequired={true}
+      isEditDisabled={false}
+      disallowExitEditModeWhileInvalid={true}
+    >
       {(props) => (
         <input
           {...props}
@@ -40,4 +47,4 @@ function InlineTextField({
   );
 }
 
-export default InlineTextField;
+export default observer(InlineTextField);

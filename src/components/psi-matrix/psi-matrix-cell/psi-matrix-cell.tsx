@@ -3,6 +3,7 @@ import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import PsiCellStore from "../../../stores/psi-cell-store";
 import { observer } from 'mobx-react';
+import './psi-matrix-cell.scss'
 
 interface PsiMatrixCellProps {
   store: PsiCellStore;
@@ -11,18 +12,19 @@ interface PsiMatrixCellProps {
 function PsiMatrixCell(props: PsiMatrixCellProps) {
   const { store } = props;
 
-  const [editorState, setEditorState] = React.useState(() => store.freeTextState);
+  const [editorState, setEditorState] = React.useState(
+    () => store.freeTextState
+  );
 
   const onEditorStateChange = (state: EditorState) => {
     setEditorState(state);
     store.setFreeText(editorState);
-    // store.onCellChanged();
   };
 
   return (
       <>
-        <div style={{ width: "500px" }}>
-          <Editor editorState={editorState} onChange={onEditorStateChange} />
+        <div className='text-editor-container'>
+          <Editor editorState={editorState} onChange={onEditorStateChange} onBlur={()=> console.log("blured")} />
         </div>
         {/*<span>{JSON.stringify(store.modelData)}</span>*/}
         {/*<span>{store.modelData}</span>*/}
@@ -31,4 +33,4 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
   );
 }
 
-export default observer(PsiMatrixCell)
+export default observer(PsiMatrixCell);

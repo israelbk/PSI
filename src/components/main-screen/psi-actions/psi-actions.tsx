@@ -12,6 +12,7 @@ import SinglePsiModel from "../../../models/single-psi-model";
 import SinglePsiStore from "../../../stores/single-psi-store";
 import { FileDownload, FileUpload } from "@mui/icons-material";
 import moment from "moment";
+import {v4 as uuid} from "uuid";
 
 interface PsiActionsProps {
   store: PsiInstanceStore;
@@ -53,8 +54,10 @@ function PsiActions(props: PsiActionsProps) {
   }
 
   function exportCurrentPsi() {
+    const exportedPsi = store.currentPsiStore.modelData;
+    exportedPsi.psiData.id = uuid();
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(store.currentPsiStore.toJSON())
+      JSON.stringify(exportedPsi)
     )}`;
     const link = document.createElement("a");
     const currentDate = moment().format("YYYY/MM/DD-HH:MM");

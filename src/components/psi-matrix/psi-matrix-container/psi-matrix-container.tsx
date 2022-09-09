@@ -34,7 +34,7 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
           <TableBody>
             {currentPsi.psiRowsStore.map((row: PsiRowStore) => (
               <TableRow
-                key={row.rowNum.toString() + "-" + row.phase}
+                key={row.phase+"-"+currentPsi.modelData.psiData.id}
                 sx={{ "&:last-child td, &:last-child th": { borderBlock: 0 } }}
               >
                 <TableCell component="th" scope="row">

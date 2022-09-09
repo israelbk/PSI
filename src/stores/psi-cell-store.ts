@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx";
+import {action, computed, makeObservable, observable} from "mobx";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellModel from "../models/psi-cell-model";
@@ -15,6 +15,7 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     row?: number,
     column?: number
   ) {
+    makeObservable(this);
     this.initData(json, row, column);
   }
 
@@ -30,11 +31,6 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
 
   @action setFreeText(newValue: EditorState) {
     this.freeTextState = newValue;
-    console.log("free text changed", JSON.stringify(convertToRaw(this.freeTextState.getCurrentContent())));
-  }
-
-  onCellChanged() {
-    this.psiRowStore.onCellChanged();
   }
 
   @action updateFromJson(json: PsiCellModel) {
@@ -44,19 +40,10 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     this.column = Number(json.column);
   }
 
-  toJSON(): PsiCellModel {
-    return {
-      freeText: JSON.stringify(convertToRaw(this.freeTextState.getCurrentContent())),
-      row: this.row.toString(),
-      column: this.column.toString(),
-    };
-  }
-
   @computed get freeTextToSave(): string {
     const json = JSON.stringify(
       convertToRaw(this.freeTextState.getCurrentContent())
     );
-    console.log("freeTextToSave", json);
 
     return json;
   }
@@ -68,8 +55,6 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
       column: this.column.toString(),
     };
 
-    console.log("cell store", json);
     return json;
-    // return JSON.stringify(json);
   }
 }
