@@ -22,7 +22,6 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
     setEditorState(store.currentlyEditedState);
     if (editorState) {
       EditorState.moveFocusToEnd(editorState);
-      // editedStateRef.current.focus()
     }
   }, [store.currentlyEditedId]);
 
@@ -36,7 +35,7 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
   }
 
   function createNewEditMode() {
-    const state = store.createNewEmptyState();
+    store.createNewEmptyState();
     // editedStateRef.current.focus();
     // EditorState.moveFocusToEnd(state);
   }
