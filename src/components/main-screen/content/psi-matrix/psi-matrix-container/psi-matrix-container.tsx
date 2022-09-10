@@ -7,8 +7,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import PsiMatrixCell from "../psi-matrix-cell/psi-matrix-cell";
-import PsiInstanceStore from "../../../../stores/psi-instance-store";
-import PsiRowStore from "../../../../stores/psi-row-store";
+import PsiInstanceStore from "../../../../../stores/psi-instance-store";
+import PsiRowStore from "../../../../../stores/psi-row-store";
 import "./psi-matrix-container.scss";
 import { observer } from "mobx-react";
 

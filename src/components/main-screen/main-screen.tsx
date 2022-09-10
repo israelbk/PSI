@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 
-import PsiMatrixContainer from "./psi-matrix/psi-matrix-container/psi-matrix-container";
+import PsiMatrixContainer from "./content/psi-matrix/psi-matrix-container/psi-matrix-container";
 import PsiInstanceStore from "../../stores/psi-instance-store";
 import Header from "./header/header";
 import "./main-screen.scss";
 import Footer from "./footer/footer";
-import PsiScroller from "./psi-scroller/psi-scroller";
-import PsiActions from "./psi-actions/psi-actions";
+import PsiScroller from "./content/psi-scroller/psi-scroller";
+import PsiActions from "./content/psi-actions/psi-actions";
 import { observer } from "mobx-react";
 
 function MainScreen() {

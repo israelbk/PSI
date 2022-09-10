@@ -1,10 +1,10 @@
 import React from "react";
-import PsiInstanceStore from "../../../stores/psi-instance-store";
+import PsiInstanceStore from "../../../../stores/psi-instance-store";
 import { observer } from "mobx-react";
 import "./psi-scroller.scss";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import { getClasses } from "../../../utils/utils";
+import { getClasses } from "../../../../utils/utils";
 
 interface PsiScrollerProps {
   store: PsiInstanceStore;
