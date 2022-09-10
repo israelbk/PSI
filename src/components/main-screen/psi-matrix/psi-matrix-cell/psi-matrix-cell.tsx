@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
-import PsiCellStore from "../../../stores/psi-cell-store";
+import PsiCellStore from "../../../../stores/psi-cell-store";
 import { observer } from "mobx-react";
 import "./psi-matrix-cell.scss";
 import AddIcon from "@mui/icons-material/Add";
