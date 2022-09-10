@@ -8,7 +8,8 @@ import { useFilePicker } from "use-file-picker";
 import { Button } from "@mui/material";
 import LocalStorageService from "../../../services/local-storage-service";
 import InlineTextField from "../../inline-render-text-number-field/inline-render-text-number-field";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
+import DialogService from "../../../services/dialog-service";
 
 interface HeaderProps {
   store: PsiInstanceStore;
@@ -24,9 +25,14 @@ function Header(props: HeaderProps) {
     if (filesContent.length === 0) return;
     try {
       const psiData = filesContent[0].content;
-      store.initData(psiData);
+      store.loadData(psiData);
       LocalStorageService.setPsi(psiData);
-    } catch (err){
+    } catch (err) {
+      DialogService.openDialog({
+        content: "aaa",
+        onDialogClose(isAgree: boolean): void {},
+        shouldOpen: true,
+      });
       alert("Sorry but the imported file format is not as expected");
       return;
     }
@@ -37,8 +43,10 @@ function Header(props: HeaderProps) {
   }
 
   function onExportClicked() {
+    const modelData = store.modelData;
+    delete modelData.currentEditor;
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(store.modelData)
+      JSON.stringify(modelData)
     )}`;
     const link = document.createElement("a");
     const currentDate = moment().format("YYYY/MM/DD-HH:MM");

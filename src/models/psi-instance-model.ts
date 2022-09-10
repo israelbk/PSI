@@ -4,6 +4,7 @@ interface PsiInstanceModel {
     psiModels: SinglePsiModel[];
     appName: string;
     currentPsiIndex: string;
+    currentEditor?: string;
 }
 
 export default PsiInstanceModel;

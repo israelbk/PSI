@@ -1,5 +1,5 @@
-import PsiInstanceStore from "../../../stores/psi-instance-store";
-import { Tooltip } from "../../tooltip/tooltip";
+import PsiInstanceStore from "../../../../../stores/psi-instance-store";
+import { Tooltip } from "../../../../tooltip/tooltip";
 import { Button } from "@mui/material";
 import { observer, Observer } from "mobx-react";
 import { useEffect, useState } from "react";
@@ -8,8 +8,8 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PsiActionOption from "./psi-action-option/psi-action-option";
 import { useFilePicker } from "use-file-picker";
-import SinglePsiModel from "../../../models/single-psi-model";
-import SinglePsiStore from "../../../stores/single-psi-store";
+import SinglePsiModel from "../../../../../models/single-psi-model";
+import SinglePsiStore from "../../../../../stores/single-psi-store";
 import { FileDownload, FileUpload } from "@mui/icons-material";
 import moment from "moment";
 import {v4 as uuid} from "uuid";

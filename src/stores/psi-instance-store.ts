@@ -10,6 +10,8 @@ import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
+import {Exception} from "sass";
+import DialogService from "../services/dialog-service";
 
 export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
@@ -17,11 +19,13 @@ export default class PsiInstanceStore
   @observable psisStore!: IObservableArray<SinglePsiStore>;
   @observable currentPsiIndex: number;
   @observable appName: string;
+  @observable currentEditor: string;
 
   constructor() {
     makeObservable(this);
     this.currentPsiIndex = 0;
     this.appName = "Welcome to PSI app";
+    this.currentEditor = "Enter your name";
     // autorun( this.onPsiChanged );
     this.initData();
     reaction(
@@ -54,11 +58,15 @@ export default class PsiInstanceStore
 
   @action setAppName(newName: string) {
     this.appName = newName;
-    // this.onPsiChanged()
+  }
+
+  @action setCurrentEditor(newEditor: string) {
+    this.currentEditor = newEditor;
   }
 
   @action updateFromJson(json: PsiInstanceModel) {
     this.appName = json.appName;
+    this.currentEditor = json.currentEditor ?? this.currentEditor;
     this.currentPsiIndex = parseInt(json.currentPsiIndex) || 0;
     const psiStores = json.psiModels.map(
       (model) => new SinglePsiStore(this, model)
@@ -66,14 +74,31 @@ export default class PsiInstanceStore
     this.psisStore = observable.array(psiStores);
   }
 
-  @action initData(data?: string) {
-    const localStorageData = data ?? LocalStorageService.getPsi();
-    if (localStorageData != null) {
-      this.updateFromJson(JSON.parse(localStorageData));
-    } else {
-      this.psisStore = observable.array([new SinglePsiStore(this)]);
+  @action initData() {
+    try {
+      const localStorageData = LocalStorageService.getPsi();
+      if (localStorageData != null) {
+        this.updateFromJson(JSON.parse(localStorageData));
+      } else {
+        this.psisStore = observable.array([new SinglePsiStore(this)]);
+      }
+    } catch (e) {
+      console.log("ERR")
+      DialogService.openDialog({
+        content: "aaa",
+        onDialogClose(isAgree: boolean): void {},
+        shouldOpen: true,
+      });
     }
   }
+
+  @action loadData(data: string) {
+    if (data == null) {
+      throw new Error('Cannot load empty data');
+    }
+    this.updateFromJson(JSON.parse(data));
+  }
+
 
   @computed get currentPsiStore(): SinglePsiStore {
     return this.psisStore![this.currentPsiIndex];
@@ -84,13 +109,12 @@ export default class PsiInstanceStore
   };
 
   @computed get modelData(): PsiInstanceModel {
-    const json = {
+    return {
       psiModels: this.psisStore.map((store) => store.modelData),
       appName: this.appName,
+      currentEditor: this.currentEditor,
       currentPsiIndex: this.currentPsiIndex.toString(),
     };
-
-    return json;
   }
 
   @computed get psiJson(): string {
