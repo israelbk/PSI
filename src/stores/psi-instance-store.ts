@@ -10,7 +10,6 @@ import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
-import {Exception} from "sass";
 import DialogService from "../services/dialog-service";
 
 export default class PsiInstanceStore
