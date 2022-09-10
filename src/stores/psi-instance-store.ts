@@ -19,11 +19,13 @@ export default class PsiInstanceStore
   @observable psisStore!: IObservableArray<SinglePsiStore>;
   @observable currentPsiIndex: number;
   @observable appName: string;
+  @observable currentEditor: string;
 
   constructor() {
     makeObservable(this);
     this.currentPsiIndex = 0;
     this.appName = "Welcome to PSI app";
+    this.currentEditor = "Enter your name";
     // autorun( this.onPsiChanged );
     this.initData();
     reaction(
@@ -56,11 +58,15 @@ export default class PsiInstanceStore
 
   @action setAppName(newName: string) {
     this.appName = newName;
-    // this.onPsiChanged()
+  }
+
+  @action setCurrentEditor(newEditor: string) {
+    this.currentEditor = newEditor;
   }
 
   @action updateFromJson(json: PsiInstanceModel) {
     this.appName = json.appName;
+    this.currentEditor = json.currentEditor ?? this.currentEditor;
     this.currentPsiIndex = parseInt(json.currentPsiIndex) || 0;
     const psiStores = json.psiModels.map(
       (model) => new SinglePsiStore(this, model)
@@ -103,13 +109,12 @@ export default class PsiInstanceStore
   };
 
   @computed get modelData(): PsiInstanceModel {
-    const json = {
+    return {
       psiModels: this.psisStore.map((store) => store.modelData),
       appName: this.appName,
+      currentEditor: this.currentEditor,
       currentPsiIndex: this.currentPsiIndex.toString(),
     };
-
-    return json;
   }
 
   @computed get psiJson(): string {

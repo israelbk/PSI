@@ -43,8 +43,10 @@ function Header(props: HeaderProps) {
   }
 
   function onExportClicked() {
+    const modelData = store.modelData;
+    delete modelData.currentEditor;
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(store.modelData)
+      JSON.stringify(modelData)
     )}`;
     const link = document.createElement("a");
     const currentDate = moment().format("YYYY/MM/DD-HH:MM");

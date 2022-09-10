@@ -1,0 +1,14 @@
+.psi-editor-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  .editor-label{
+    font-weight: bold;
+    font-family: 'Pacifico', Arial;
+  }
+  .editor-name{
+    margin-inline-end: 10px;
+  }
+}
