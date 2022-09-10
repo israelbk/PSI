@@ -20,9 +20,9 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
   >();
   useEffect(() => {
     setEditorState(store.currentlyEditedState);
-    if (editorState) {
-      EditorState.moveFocusToEnd(editorState);
-    }
+    // if (editorState) {
+    //   EditorState.moveFocusToEnd(editorState);
+    // }
   }, [store.currentlyEditedId]);
 
   const onEditorStateChange = (state: EditorState) => {
