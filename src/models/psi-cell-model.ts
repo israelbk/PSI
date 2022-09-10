@@ -1,6 +1,11 @@
 
 export default interface PsiCellModel {
-    freeText: string;
+    freeText: TextEntry[];
     row: string;
     column: string;
+}
+
+export interface TextEntry {
+    id: string;
+    text: string;
 }

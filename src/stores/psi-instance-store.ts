@@ -10,6 +10,8 @@ import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
+import {Exception} from "sass";
+import DialogService from "../services/dialog-service";
 
 export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
@@ -66,14 +68,31 @@ export default class PsiInstanceStore
     this.psisStore = observable.array(psiStores);
   }
 
-  @action initData(data?: string) {
-    const localStorageData = data ?? LocalStorageService.getPsi();
-    if (localStorageData != null) {
-      this.updateFromJson(JSON.parse(localStorageData));
-    } else {
-      this.psisStore = observable.array([new SinglePsiStore(this)]);
+  @action initData() {
+    try {
+      const localStorageData = LocalStorageService.getPsi();
+      if (localStorageData != null) {
+        this.updateFromJson(JSON.parse(localStorageData));
+      } else {
+        this.psisStore = observable.array([new SinglePsiStore(this)]);
+      }
+    } catch (e) {
+      console.log("ERR")
+      DialogService.openDialog({
+        content: "aaa",
+        onDialogClose(isAgree: boolean): void {},
+        shouldOpen: true,
+      });
     }
   }
+
+  @action loadData(data: string) {
+    if (data == null) {
+      throw new Error('Cannot load empty data');
+    }
+    this.updateFromJson(JSON.parse(data));
+  }
+
 
   @computed get currentPsiStore(): SinglePsiStore {
     return this.psisStore![this.currentPsiIndex];

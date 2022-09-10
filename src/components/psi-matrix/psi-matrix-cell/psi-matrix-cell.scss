@@ -1,5 +1,43 @@
-.text-editor-container {
+.psi-cell-container {
+  height: 100%;
   padding: 10px;
-  width: 450px;
-  border: 1px solid grey;
+  .edit-mode-text-editor-container {
+    border: 1px solid grey;
+  }
+
+  .view-mode-text-area {
+    padding: 3px;
+    margin-bottom: 5px;
+    border: 1px solid #d9d9d980;
+    white-space: pre-line;
+    &:hover{
+      border: 1px solid #d9d9d9;
+      .edit-delete-icons{
+        opacity: 1;
+        fill: #7E7E7E;
+        transition: opacity 0.5s;
+      }
+    }
+  }
+
+  .add-new-text-editor-icon-container {
+    height: 100%;
+    position: relative;
+    bottom: 0;
+    right: 0;
+    .add-new-text-editor-icon {
+      fill: #0072ea;
+    }
+  }
+
+  .edit-delete-icons{
+    opacity: 0;
+  }
+
+  .cta-icon{
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 }

@@ -26,9 +26,9 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell align="center">Why / What</TableCell>
-              <TableCell align="center">Who</TableCell>
-              <TableCell align="center">How</TableCell>
+              <TableCell align="center" className="left-border">Why / What</TableCell>
+              <TableCell align="center" className="left-border">Who</TableCell>
+              <TableCell align="center" className="left-border">How</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -37,18 +37,18 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
                 key={row.phase+"-"+currentPsi.modelData.psiData.id}
                 sx={{ "&:last-child td, &:last-child th": { borderBlock: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell style={{width: '10%'}}component="th" scope="row" className="row-phase-title">
                   <bdi dir="auto" className="right-border">
                     {row.phase}
                   </bdi>
                 </TableCell>
-                <TableCell align="right" className="left-border">
+                <TableCell style={{width: '30%'}} align="right" className="left-border">
                   <PsiMatrixCell store={row.what} />
                 </TableCell>
-                <TableCell align="right" className="left-border">
+                <TableCell style={{width: '30%'}} align="right" className="left-border">
                   <PsiMatrixCell store={row.who} />
                 </TableCell>
-                <TableCell align="right" className="left-border">
+                <TableCell style={{width: '30%'}} align="right" className="left-border">
                   <PsiMatrixCell store={row.how} />
                 </TableCell>
               </TableRow>
