@@ -10,6 +10,8 @@ import LocalStorageService from "../../../services/local-storage-service";
 import InlineTextField from "../../inline-render-text-number-field/inline-render-text-number-field";
 import { observer } from "mobx-react";
 import DialogService from "../../../services/dialog-service";
+import {Tooltip} from "../../tooltip/tooltip";
+import PsiEditor from "./psi-editor/psi-editor";
 
 interface HeaderProps {
   store: PsiInstanceStore;
@@ -81,13 +83,15 @@ function Header(props: HeaderProps) {
         </div>
       </div>
       <div className="app-name">
-        <InlineTextField
-          onBlur={(value) => store.setAppName(value)}
-          input={store.appName}
-        />
+          <InlineTextField
+              onBlur={(value) => store.setAppName(value)}
+              input={store.appName}
+              className={'psi-app-name-bold-big-text'}
+              tooltipContent="This is where you add your project name"
+          />
       </div>
       <div className="right-side-main-header">
-        <div className="editor-profile-container"></div>
+        <PsiEditor store={store}/>
         <Button
           variant="contained"
           className="export-project"

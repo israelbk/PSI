@@ -71,6 +71,7 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
                       <InlineTextField
                         onBlur={(value) => currentPsi.setColumnText(0, value)}
                         input={currentPsi.whatWhyColumnText}
+                        tooltipContent="The Why / What section"
                       />
                     </div>
                   </div>
@@ -82,6 +83,7 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
                     <InlineTextField
                       onBlur={(value) => currentPsi.setColumnText(1, value)}
                       input={currentPsi.whoColumnText}
+                      tooltipContent="The Who section"
                     />
                     </div>
                   </div>
@@ -89,10 +91,10 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
                 <TableCell align="center" className="left-border">
                   <div className="column-text-container">
                     <div className="column-text-editor">
-
                     <InlineTextField
                       onBlur={(value) => currentPsi.setColumnText(2, value)}
                       input={currentPsi.howColumnText}
+                      tooltipContent="The How section"
                     />
                     </div>
                   </div>
