@@ -5,7 +5,12 @@ import {
   observable,
   ObservableMap,
 } from "mobx";
-import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
+import {
+  ContentState,
+  convertFromRaw,
+  convertToRaw,
+  EditorState,
+} from "draft-js";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellModel, { TextEntry } from "../models/psi-cell-model";
 import PsiRowStore from "./psi-row-store";
@@ -16,6 +21,7 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
   @observable currentlyEditedId?: string;
   row!: number;
   column!: number;
+  id!: string;
 
   constructor(
     readonly psiRowStore: PsiRowStore,
@@ -27,6 +33,12 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     this.initData(json, row, column);
   }
 
+  @action popFreeTextStateById(id: string): EditorState | undefined {
+    const state = this.freeTextStates.get(id);
+    this.freeTextStates.delete(id);
+    return state;
+  }
+
   @action private initData(json?: PsiCellModel, row?: number, column?: number) {
     this.freeTextStates = observable.map();
     if (json !== undefined) {
@@ -34,6 +46,7 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     } else {
       this.row = row!;
       this.column = column!;
+      this.id = uuid();
     }
   }
 
@@ -64,6 +77,10 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     }
   }
 
+  @action addFreeTextItem(id: string, newValue?: EditorState) {
+    if (newValue != null) this.freeTextStates.set(id, newValue);
+  }
+
   @action exitEditMode() {
     this.currentlyEditedId = undefined;
   }
@@ -77,6 +94,7 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     });
     this.row = Number(json.row);
     this.column = Number(json.column);
+    this.id = json.id ?? uuid();
   }
 
   @computed get viewModeStates(): { id: string; state: EditorState }[] {
@@ -108,6 +126,7 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
       freeText: freeTexts,
       row: this.row.toString(),
       column: this.column.toString(),
+      id: this.id,
     };
   }
 }
