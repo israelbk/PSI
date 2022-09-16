@@ -10,7 +10,6 @@ import LocalStorageService from "../../../services/local-storage-service";
 import InlineTextField from "../../inline-render-text-number-field/inline-render-text-number-field";
 import { observer } from "mobx-react";
 import DialogService from "../../../services/dialog-service";
-import {Tooltip} from "../../tooltip/tooltip";
 import PsiEditor from "./psi-editor/psi-editor";
 
 interface HeaderProps {

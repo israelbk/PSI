@@ -6,7 +6,6 @@ import {
   ObservableMap,
 } from "mobx";
 import {
-  ContentState,
   convertFromRaw,
   convertToRaw,
   EditorState,

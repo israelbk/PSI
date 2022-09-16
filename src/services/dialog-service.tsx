@@ -1,5 +1,5 @@
 import ReactDom from "react-dom";
-import React, {createContext} from "react";
+import React from "react";
 import AlertDialog, {
   AlertDialogProps,
 } from "../components/alert-dialog/alert-dialog";

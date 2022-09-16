@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import "./psi-editor.scss";
 import InlineTextField from "../../../inline-render-text-number-field/inline-render-text-number-field";
 import React from "react";
-import { Tooltip } from "../../../tooltip/tooltip";
 
 interface PsiEditorProps {
   store: PsiInstanceStore;
