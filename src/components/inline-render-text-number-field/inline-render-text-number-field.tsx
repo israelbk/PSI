@@ -3,16 +3,16 @@ import InlineInputBase from "../inline-input/inline-input-base";
 import { observer } from "mobx-react";
 
 interface InlineRenderTextNumberFieldProps {
-  appName: string;
+  input: string;
   onBlur: (value: string) => void;
 }
 
 function InlineTextField({
-  appName,
+  input,
   onBlur,
 }: InlineRenderTextNumberFieldProps): JSX.Element {
-  const [value, setValue] = useState<string>(appName ?? "Welcome to PSI App");
-  useEffect(() => setValue(appName), [appName]);
+  const [value, setValue] = useState<string>(input ?? "Welcome to PSI App");
+  useEffect(() => setValue(input), [input]);
 
   return (
     <InlineInputBase

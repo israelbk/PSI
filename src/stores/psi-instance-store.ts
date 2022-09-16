@@ -50,7 +50,7 @@ export default class PsiInstanceStore
   @action DeleteCurrentPsi() {
     if (this.psisStore.length === 1) return;
     this.psisStore.splice(this.currentPsiIndex, 1);
-    if (this.currentPsiIndex === this.psisStore.length){
+    if (this.currentPsiIndex === this.psisStore.length) {
       this.currentPsiIndex--;
     }
   }
@@ -82,7 +82,7 @@ export default class PsiInstanceStore
         this.psisStore = observable.array([new SinglePsiStore(this)]);
       }
     } catch (e) {
-      console.log("ERR")
+      console.log("ERR");
       DialogService.openDialog({
         content: "aaa",
         onDialogClose(isAgree: boolean): void {},
@@ -93,15 +93,15 @@ export default class PsiInstanceStore
 
   @action loadData(data: string) {
     if (data == null) {
-      throw new Error('Cannot load empty data');
+      throw new Error("Cannot load empty data");
     }
     this.updateFromJson(JSON.parse(data));
   }
 
-
   @computed get currentPsiStore(): SinglePsiStore {
     return this.psisStore![this.currentPsiIndex];
   }
+
 
   onPsiChanged = () => {
     LocalStorageService.setPsi(this.psiJson);

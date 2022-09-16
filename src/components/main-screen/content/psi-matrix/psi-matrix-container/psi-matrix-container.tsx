@@ -13,6 +13,7 @@ import "./psi-matrix-container.scss";
 import { observer } from "mobx-react";
 import { DragDropContext } from "react-beautiful-dnd";
 import PsiCellStore from "../../../../../stores/psi-cell-store";
+import InlineTextField from "../../../../inline-render-text-number-field/inline-render-text-number-field";
 
 interface PsiMatrixContainerProps {
   store: PsiInstanceStore;
@@ -40,10 +41,10 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
       if (rowStore.how.id === destCellId) destCellStore = rowStore.how;
     });
 
-    if (sourceCellStore! == null || destCellStore! == null) return
+    if (sourceCellStore! == null || destCellStore! == null) return;
 
     const draggedState = sourceCellStore.popFreeTextStateById(itemId);
-    destCellStore.addFreeTextItem(itemId, draggedState)
+    destCellStore.addFreeTextItem(itemId, draggedState);
   }
 
   return (
@@ -65,13 +66,36 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
               <TableRow>
                 <TableCell />
                 <TableCell align="center" className="left-border">
-                  Why / What
+                  <div className="column-text-container">
+                    <div className="column-text-editor">
+                      <InlineTextField
+                        onBlur={(value) => currentPsi.setColumnText(0, value)}
+                        input={currentPsi.whatWhyColumnText}
+                      />
+                    </div>
+                  </div>
                 </TableCell>
                 <TableCell align="center" className="left-border">
-                  Who
+                  <div className="column-text-container">
+                    <div className="column-text-editor">
+
+                    <InlineTextField
+                      onBlur={(value) => currentPsi.setColumnText(1, value)}
+                      input={currentPsi.whoColumnText}
+                    />
+                    </div>
+                  </div>
                 </TableCell>
                 <TableCell align="center" className="left-border">
-                  How
+                  <div className="column-text-container">
+                    <div className="column-text-editor">
+
+                    <InlineTextField
+                      onBlur={(value) => currentPsi.setColumnText(2, value)}
+                      input={currentPsi.howColumnText}
+                    />
+                    </div>
+                  </div>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -90,7 +114,10 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
                     className="row-phase-title"
                   >
                     <bdi dir="auto" className="right-border">
-                      {row.phase}
+                      <InlineTextField
+                        onBlur={(value) => row.setPhaseString(value)}
+                        input={row.phase}
+                      />
                     </bdi>
                   </TableCell>
                   <TableCell align="right" className="left-border psi-cell">

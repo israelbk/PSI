@@ -10,12 +10,14 @@ export default class SinglePsiStore
 {
   private psiId: string;
   @observable psiRowsStore!: IObservableArray<PsiRowStore>;
+  @observable columnsText!: IObservableArray<string>;
 
   constructor(
     readonly psiInstanceStore: PsiInstanceStore,
     SinglePsiModel?: SinglePsiModel
   ) {
     makeObservable(this);
+    this.columnsText = observable.array(["Why / What", "Who", "How"]);
     this.psiId = SinglePsiModel?.psiData.id ?? uuid();
     this.initData(SinglePsiModel);
   }
@@ -48,6 +50,7 @@ export default class SinglePsiStore
       json.psiData.psiRowModels.map((model) => new PsiRowStore(this, model))
     );
     this.psiId = json.psiData.id;
+    this.columnsText = json.psiData.columnsText != null ? observable.array(json.psiData.columnsText) : this.columnsText;
   }
 
   @computed get modelData(): SinglePsiModel {
@@ -55,8 +58,24 @@ export default class SinglePsiStore
       psiData: {
         id: this.psiId,
         psiRowModels: this.psiRowsStore?.map((store) => store.modelData),
+        columnsText: [...this.columnsText],
       },
     };
     return json;
+  }
+
+  @action setColumnText(index: number, data: string) {
+    this.columnsText[index] = data;
+  }
+
+  @computed get whatWhyColumnText(): string {
+    return this.columnsText[0];
+  }
+
+  @computed get whoColumnText(): string {
+    return this.columnsText[1];
+  }
+  @computed get howColumnText(): string {
+    return this.columnsText[2];
   }
 }

@@ -18,7 +18,7 @@ function PsiEditor(props: PsiEditorProps) {
       <div className="editor-name">
         <InlineTextField
             onBlur={(value) => store.setCurrentEditor(value)}
-            appName={store.currentEditor}
+            input={store.currentEditor}
         />
       </div>
     </div>

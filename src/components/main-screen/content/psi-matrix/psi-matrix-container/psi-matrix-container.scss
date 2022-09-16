@@ -1,4 +1,4 @@
-.psi-wrapper{
+.psi-wrapper {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -8,17 +8,28 @@
   overflow-y: scroll;
   max-width: 98%;
 
-  .psi-cell{
+  .psi-cell {
     height: 1px;
     min-height: 1px;
     width: 30%;
   }
 
-  .left-border{
+  .left-border {
     border-inline-start: 1px solid #e9e9e9;
   }
 
-  .row-phase-title{
+  .row-phase-title {
     max-width: 10px;
+  }
+
+  .column-text-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .column-text-editor {
+      max-width: 150px;
+      min-width: 75px;
+    }
   }
 }

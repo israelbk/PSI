@@ -4,5 +4,6 @@ export default interface SinglePsiModel {
   psiData: {
     psiRowModels: PsiRowModel[];
     id: string;
+    columnsText: string[];
   };
 }

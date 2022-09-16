@@ -83,7 +83,7 @@ function Header(props: HeaderProps) {
       <div className="app-name">
         <InlineTextField
           onBlur={(value) => store.setAppName(value)}
-          appName={store.appName}
+          input={store.appName}
         />
       </div>
       <div className="right-side-main-header">

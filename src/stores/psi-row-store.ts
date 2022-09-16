@@ -37,6 +37,10 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
     this.how = new PsiCellStore(this, json.data!.how);
   }
 
+  @action setPhaseString(phase: string) {
+    this.phase = phase
+  }
+
   @computed get modelData(): PsiRowModel{
     const json = {
       rowNum: this.rowNum.toString(),
