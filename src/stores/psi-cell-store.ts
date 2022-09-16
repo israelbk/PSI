@@ -15,6 +15,7 @@ import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellModel, { TextEntry } from "../models/psi-cell-model";
 import PsiRowStore from "./psi-row-store";
 import { v4 as uuid } from "uuid";
+import PsiInstanceStore from "./psi-instance-store";
 
 export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
   @observable freeTextStates!: ObservableMap<string, EditorState>;
@@ -58,8 +59,27 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     return state;
   }
 
+  @action pasteFromClipboard() {
+    const id = uuid();
+    if (this.instanceStore.stateClipboard == null) return;
+    this.freeTextStates.set(id, this.instanceStore.stateClipboard);
+    this.instanceStore.setStateClipboard(undefined);
+  }
+
   @action updateCurrentlyEditedState(id: string) {
     this.currentlyEditedId = id;
+  }
+
+  @action copyStateIntoClipboard(id: string) {
+    const state = this.freeTextStates.get(id);
+    const contentState = convertFromRaw(
+      convertToRaw(state!.getCurrentContent())
+    );
+    const clonedState: EditorState =
+      EditorState.createWithContent(contentState);
+    this.instanceStore.setStateClipboard(
+      clonedState
+    );
   }
 
   @action deleteStateById(id: string) {
@@ -111,6 +131,14 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     return this.currentlyEditedId
       ? this.freeTextStates.get(this.currentlyEditedId) ?? undefined
       : undefined;
+  }
+
+  @computed get clipboardIsNotEmpty(): boolean {
+    return this.instanceStore.stateClipboard != null;
+  }
+
+  @computed get instanceStore(): PsiInstanceStore {
+    return this.psiRowStore.singlePsiStore.psiInstanceStore;
   }
 
   @computed get modelData(): PsiCellModel {

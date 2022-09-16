@@ -11,6 +11,8 @@ import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
 import DialogService from "../services/dialog-service";
+import { v4 as uuid } from "uuid";
+import { EditorState } from "draft-js";
 
 export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
@@ -19,13 +21,14 @@ export default class PsiInstanceStore
   @observable currentPsiIndex: number;
   @observable appName: string;
   @observable currentEditor: string;
+  @observable stateClipboard?: EditorState;
 
   constructor() {
     makeObservable(this);
     this.currentPsiIndex = 0;
     this.appName = "Welcome to PSI app";
     this.currentEditor = "Enter your name";
-    // autorun( this.onPsiChanged );
+    this.stateClipboard = undefined;
     this.initData();
     reaction(
       () => this.psiJson,
@@ -42,9 +45,21 @@ export default class PsiInstanceStore
     this.currentPsiIndex = this.psisStore.length - 1;
   }
 
+  @action cloneCurrentPsi() {
+    const psiModelData = this.currentPsiStore.modelData;
+    psiModelData.psiData.id = uuid();
+    psiModelData.psiData.psiName += " (cloned)";
+    this.psisStore.push(new SinglePsiStore(this, psiModelData));
+    this.currentPsiIndex = this.psisStore.length - 1;
+  }
+
   @action addNewPsi(newPsi: SinglePsiStore) {
     this.psisStore.push(newPsi);
     this.currentPsiIndex = this.psisStore.length - 1;
+  }
+
+  @action setStateClipboard(state?: EditorState) {
+    this.stateClipboard = state;
   }
 
   @action DeleteCurrentPsi() {
@@ -101,7 +116,6 @@ export default class PsiInstanceStore
   @computed get currentPsiStore(): SinglePsiStore {
     return this.psisStore![this.currentPsiIndex];
   }
-
 
   onPsiChanged = () => {
     LocalStorageService.setPsi(this.psiJson);

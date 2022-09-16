@@ -12,30 +12,43 @@
     margin-bottom: 5px;
     border: 1px solid #d9d9d980;
     white-space: pre-line;
-    &:hover{
+    &:hover {
       border: 1px solid #d9d9d9;
-      .edit-delete-icons{
+      .cell-state-actions {
         opacity: 1;
-        fill: #7E7E7E;
         transition: opacity 0.5s;
+        .cta-icon {
+          cursor: pointer;
+          fill: #7e7e7e;
+          gap: 5px;
+          &:hover {
+            transform: scale(1.3);
+          }
+        }
       }
     }
   }
 
-  .add-new-text-editor-icon-container {
-    .add-new-text-editor-icon {
-      fill: #0072ea;
+  &:hover {
+    .cell-actions {
+      opacity: 1;
+      transition: opacity 0.5s;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      .cta-icon {
+        cursor: pointer;
+        fill: #0072ea;
+        &:hover {
+          transform: scale(1.3);
+        }
+      }
     }
   }
 
-  .edit-delete-icons{
+  .cell-state-actions,
+  .cell-actions {
     opacity: 0;
-  }
-
-  .cta-icon{
-    cursor: pointer;
-    &:hover {
-      transform: scale(1.3);
-    }
   }
 }
