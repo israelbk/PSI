@@ -11,8 +11,8 @@ import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
 import { v4 as uuid } from "uuid";
-import { EditorState } from "draft-js";
 import moment from "moment";
+import PsiDataBlockStore from "./psi-data-block-store";
 
 export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
@@ -21,7 +21,8 @@ export default class PsiInstanceStore
   @observable currentPsiIndex!: number;
   @observable appName!: string;
   @observable currentEditor!: string;
-  @observable stateClipboard?: EditorState;
+  @observable dataBlockClipboard?: PsiDataBlockStore;
+  @observable isAdmin?: boolean;
 
   constructor() {
     makeObservable(this);
@@ -68,8 +69,8 @@ export default class PsiInstanceStore
     this.currentPsiIndex = this.psisStore.length - 1;
   }
 
-  @action setStateClipboard(state?: EditorState) {
-    this.stateClipboard = state;
+  @action setStateClipboard(dataBlock?: PsiDataBlockStore) {
+    this.dataBlockClipboard = dataBlock;
   }
 
   @action DeleteCurrentPsi() {
@@ -96,13 +97,14 @@ export default class PsiInstanceStore
       (model) => new SinglePsiStore(this, model)
     );
     this.psisStore = observable.array(psiStores);
+    this.isAdmin = json.admin ?? false;
   }
 
   @action initData() {
     this.currentPsiIndex = 0;
     this.appName = "Welcome to PSI app";
     this.currentEditor = "Enter your name";
-    this.stateClipboard = undefined;
+    this.dataBlockClipboard = undefined;
     const localStorageData = LocalStorageService.getPsi();
     if (localStorageData != null) {
       this.updateFromJson(JSON.parse(localStorageData));
@@ -129,6 +131,7 @@ export default class PsiInstanceStore
   exportProjectJson(jsonToExport?: string | null) {
     if (jsonToExport == null) {
       delete this.modelData.currentEditor;
+      this.modelData.admin = false;
       jsonToExport = JSON.stringify(this.modelData);
     }
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
@@ -136,7 +139,7 @@ export default class PsiInstanceStore
     )}`;
 
     const link = document.createElement("a");
-    const currentDate = moment().format("YYYY/MM/DD-HH:MM");
+    const currentDate = moment().format("YYYY/MM/DD-hh:mm");
     link.href = data;
     link.download = `PSI-Project-${currentDate}.json`;
     link.click();
@@ -148,6 +151,7 @@ export default class PsiInstanceStore
       appName: this.appName,
       currentEditor: this.currentEditor,
       currentPsiIndex: this.currentPsiIndex.toString(),
+      admin: this.isAdmin ?? false,
     };
   }
 

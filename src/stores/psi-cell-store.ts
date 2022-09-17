@@ -5,19 +5,20 @@ import {
   observable,
   ObservableMap,
 } from "mobx";
-import {
-  convertFromRaw,
-  convertToRaw,
-  EditorState,
-} from "draft-js";
+import { EditorState } from "draft-js";
 import JsonSerializable from "../interfaces/JsonSerializable";
-import PsiCellModel, { TextEntry } from "../models/psi-cell-model";
+import PsiCellModel from "../models/psi-cell-model";
 import PsiRowStore from "./psi-row-store";
 import { v4 as uuid } from "uuid";
 import PsiInstanceStore from "./psi-instance-store";
+import PsiCellDataBlockModel, {
+  EditMetaData,
+} from "../models/psi-data-block-model";
+import PsiDataBlockStore from "./psi-data-block-store";
+import PsiDataBlockModel from "../models/psi-data-block-model";
 
 export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
-  @observable freeTextStates!: ObservableMap<string, EditorState>;
+  @observable dataBlocks!: ObservableMap<string, PsiDataBlockStore>;
   @observable currentlyEditedId?: string;
   row!: number;
   column!: number;
@@ -33,14 +34,14 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     this.initData(json, row, column);
   }
 
-  @action popFreeTextStateById(id: string): EditorState | undefined {
-    const state = this.freeTextStates.get(id);
-    this.freeTextStates.delete(id);
-    return state;
+  @action popFreeTextStateById(id: string): PsiDataBlockStore {
+    const dataBlock = this.dataBlocks.get(id);
+    this.dataBlocks.delete(id);
+    return dataBlock!;
   }
 
   @action private initData(json?: PsiCellModel, row?: number, column?: number) {
-    this.freeTextStates = observable.map();
+    this.dataBlocks = observable.map();
     if (json !== undefined) {
       this.updateFromJson(json);
     } else {
@@ -50,18 +51,26 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     }
   }
 
-  @action createNewEmptyState(): EditorState {
-    const id = uuid();
-    const state = EditorState.createEmpty();
-    this.freeTextStates.set(id, state);
-    this.currentlyEditedId = id;
-    return state;
+  @action createNewEmptyDataBlock(): EditorState {
+    const newDataBlock = new PsiDataBlockStore(this);
+    this.dataBlocks.set(newDataBlock.id, newDataBlock);
+    this.currentlyEditedId = newDataBlock.id;
+    return newDataBlock.state;
+  }
+
+  @action addDataBlock(dataBlock: PsiDataBlockStore) {
+    this.dataBlocks.set(dataBlock.id, dataBlock);
   }
 
   @action pasteFromClipboard() {
-    const id = uuid();
-    if (this.instanceStore.stateClipboard == null) return;
-    this.freeTextStates.set(id, this.instanceStore.stateClipboard);
+    const copiedBlock = this.instanceStore.dataBlockClipboard;
+    if (copiedBlock == null) return;
+    const modelData = copiedBlock.modelData;
+    modelData.id = uuid();
+    modelData.editingHistory = [];
+    modelData.creationData = this.getMetaData();
+    const newBlockData = new PsiDataBlockStore(this, modelData);
+    this.dataBlocks.set(newBlockData.id, newBlockData);
     this.instanceStore.setStateClipboard(undefined);
   }
 
@@ -69,35 +78,9 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     this.currentlyEditedId = id;
   }
 
-  @action copyStateIntoClipboard(id: string) {
-    const state = this.freeTextStates.get(id);
-    const contentState = convertFromRaw(
-      convertToRaw(state!.getCurrentContent())
-    );
-    const clonedState: EditorState =
-      EditorState.createWithContent(contentState);
-    this.instanceStore.setStateClipboard(
-      clonedState
-    );
-  }
-
   @action deleteStateById(id: string) {
     if (this.currentlyEditedId === id) this.currentlyEditedId = undefined;
-    this.freeTextStates.delete(id);
-  }
-
-  @action setFreeText(newValue?: EditorState) {
-    if (
-      newValue != null &&
-      this.currentlyEditedId &&
-      this.freeTextStates.has(this.currentlyEditedId)
-    ) {
-      this.freeTextStates.set(this.currentlyEditedId, newValue);
-    }
-  }
-
-  @action addFreeTextItem(id: string, newValue?: EditorState) {
-    if (newValue != null) this.freeTextStates.set(id, newValue);
+    this.dataBlocks.delete(id);
   }
 
   @action exitEditMode() {
@@ -105,35 +88,56 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
   }
 
   @action updateFromJson(json: PsiCellModel) {
-    json.freeText.forEach((freeTextEntry: TextEntry) => {
-      const contentState = convertFromRaw(JSON.parse(freeTextEntry.text));
-      const freeTextState: EditorState =
-        EditorState.createWithContent(contentState);
-      this.freeTextStates.set(freeTextEntry.id, freeTextState);
+    if (json.freeText != null) {
+      json.dataBlocks = json.freeText.map((freeTextEntry: any) => {
+        return {
+          id: freeTextEntry.id,
+          text: freeTextEntry.text,
+          creationData: this.getMetaData(),
+          editingHistory: [],
+        };
+      });
+      delete json.freeText;
+    }
+
+    json.dataBlocks.forEach((dataBlockModel: PsiCellDataBlockModel) => {
+      this.dataBlocks.set(
+        dataBlockModel.id,
+        new PsiDataBlockStore(this, dataBlockModel)
+      );
     });
     this.row = Number(json.row);
     this.column = Number(json.column);
     this.id = json.id ?? uuid();
   }
 
-  @computed get viewModeStates(): { id: string; state: EditorState }[] {
-    const viewModeStates: { id: string; state: EditorState }[] = [];
-    this.freeTextStates.forEach((textState, key) => {
-      if (key !== this.currentlyEditedId) {
-        viewModeStates.push({ id: key, state: textState });
+  @computed get viewModeDataBlocks(): {
+    id: string;
+    dataBlockStore: PsiDataBlockStore;
+  }[] {
+    const viewModeDataBlocks: {
+      id: string;
+      dataBlockStore: PsiDataBlockStore;
+    }[] = [];
+    this.dataBlocks.forEach((dataBlockStore, dataBlockId) => {
+      if (dataBlockId !== this.currentlyEditedId) {
+        viewModeDataBlocks.push({
+          id: dataBlockId,
+          dataBlockStore: dataBlockStore,
+        });
       }
     });
-    return viewModeStates;
+    return viewModeDataBlocks;
   }
 
-  @computed get currentlyEditedState(): EditorState | undefined {
+  @computed get currentlyEditedState(): PsiDataBlockStore | undefined {
     return this.currentlyEditedId
-      ? this.freeTextStates.get(this.currentlyEditedId) ?? undefined
+      ? this.dataBlocks.get(this.currentlyEditedId) ?? undefined
       : undefined;
   }
 
   @computed get clipboardIsNotEmpty(): boolean {
-    return this.instanceStore.stateClipboard != null;
+    return this.instanceStore.dataBlockClipboard != null;
   }
 
   @computed get instanceStore(): PsiInstanceStore {
@@ -141,19 +145,23 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
   }
 
   @computed get modelData(): PsiCellModel {
-    const freeTexts: TextEntry[] = [];
-    this.freeTextStates.forEach((value, key) => {
-      const extractedText = JSON.stringify(
-        convertToRaw(value.getCurrentContent())
-      );
-      freeTexts.push({ id: key, text: extractedText });
+    const dataBlocks: PsiDataBlockModel[] = [];
+    this.dataBlocks.forEach((value, key) => {
+      dataBlocks.push(value.modelData);
     });
 
     return {
-      freeText: freeTexts,
+      dataBlocks: dataBlocks,
       row: this.row.toString(),
       column: this.column.toString(),
       id: this.id,
     };
   }
+
+  getMetaData = (): EditMetaData => {
+    return {
+      user: this.instanceStore.currentEditor,
+      timestamp: Date.now(),
+    };
+  };
 }

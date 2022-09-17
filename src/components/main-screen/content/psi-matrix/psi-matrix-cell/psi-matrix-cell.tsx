@@ -5,11 +5,9 @@ import PsiCellStore from "../../../../../stores/psi-cell-store";
 import { observer, Observer } from "mobx-react";
 import "./psi-matrix-cell.scss";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import {Droppable, Draggable, DroppableProvided} from "react-beautiful-dnd";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
+import DataBlockViewMode from "../data-block/data-block-view-mode";
 
 interface PsiMatrixCellProps {
   store: PsiCellStore;
@@ -23,8 +21,8 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
   >();
 
   useEffect(() => {
-    setEditorState(store.currentlyEditedState);
-  }, [store.currentlyEditedState]);
+    setEditorState(store.currentlyEditedState?.state);
+  }, [store.currentlyEditedState?.state]);
 
   useEffect(() => {
     if (editorState) {
@@ -37,26 +35,17 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
   };
 
   function onEditModeExit() {
-    store.setFreeText(editorState);
+    if (store.currentlyEditedState != null && editorState != null)
+      store.currentlyEditedState.setState(editorState);
     store.exitEditMode();
   }
 
   function createNewEditMode() {
-    store.createNewEmptyState();
+    store.createNewEmptyDataBlock();
   }
 
   function pasteFromClipboard() {
     store.pasteFromClipboard();
-  }
-
-  function copyStateIntoClipboard(id: string) {
-    store.copyStateIntoClipboard(id);
-  }
-  function goToEditMode(id: string) {
-    store.updateCurrentlyEditedState(id);
-  }
-  function deleteStateById(id: string) {
-    store.deleteStateById(id);
   }
 
   function renderEditor() {
@@ -93,6 +82,30 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
     );
   }
 
+  function renderViewModeBlocks(provided: DroppableProvided) {
+    return (
+      <div className="view-mode-texts-container">
+        <Observer>
+          {() => (
+            <>
+              {store.viewModeDataBlocks.map(({ id, dataBlockStore }, index) => (
+                <Draggable draggableId={id} index={index} key={id}>
+                  {(provided, snapshot) => (
+                    <DataBlockViewMode
+                      store={dataBlockStore}
+                      provided={provided}
+                    />
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </>
+          )}
+        </Observer>
+      </div>
+    );
+  }
+
   return (
     <Droppable droppableId={store.id}>
       {(provided) => (
@@ -101,48 +114,7 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
-          <div className="view-mode-texts-container">
-            <Observer>
-              {() => (
-                <>
-                  {store.viewModeStates.map(({ id, state }, index) => (
-                    <Draggable draggableId={id} index={index} key={id}>
-                      {(provided, snapshot) => (
-                        <div
-                          key={id}
-                          ref={provided.innerRef}
-                          className="view-mode-text-area"
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <Editor
-                            editorState={state}
-                            readOnly={true}
-                            onChange={onEditorStateChange}
-                          />
-                          <div className="cell-state-actions">
-                            <ContentCopyIcon
-                              className="cta-icon"
-                              onClick={() => copyStateIntoClipboard(id)}
-                            />
-                            <EditIcon
-                              className="cta-icon"
-                              onClick={() => goToEditMode(id)}
-                            />
-                            <DeleteIcon
-                              className="cta-icon"
-                              onClick={() => deleteStateById(id)}
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </>
-              )}
-            </Observer>
-          </div>
+          {renderViewModeBlocks(provided)}
           {editorState != null && renderEditor()}
           {editorState == null && renderActions()}
         </div>

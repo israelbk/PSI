@@ -43,8 +43,8 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
 
     if (sourceCellStore! == null || destCellStore! == null) return;
 
-    const draggedState = sourceCellStore.popFreeTextStateById(itemId);
-    destCellStore.addFreeTextItem(itemId, draggedState);
+    const draggedDataBlock = sourceCellStore.popFreeTextStateById(itemId);
+    destCellStore.addDataBlock(draggedDataBlock);
   }
 
   return (

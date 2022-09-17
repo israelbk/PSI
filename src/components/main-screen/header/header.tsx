@@ -44,7 +44,6 @@ function Header(props: HeaderProps) {
 
   return (
     <div className="app-header">
-      {/*<span>{store.psiJson}</span>*/}
       <div className="left-side-main-header">
         <div className="brand">
           <a href="https://english.tau.ac.il/" target="blank" rel="noreferrer">

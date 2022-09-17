@@ -65,7 +65,7 @@ function PsiActions(props: PsiActionsProps) {
       JSON.stringify(exportedPsi)
     )}`;
     const link = document.createElement("a");
-    const currentDate = moment().format("YYYY/MM/DD-HH:MM");
+    const currentDate = moment().format("YYYY/MM/DD-hh:mm");
     link.href = data;
     link.download = `Single-PSI-${currentDate}.json`;
     link.click();

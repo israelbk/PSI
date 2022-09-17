@@ -5,6 +5,7 @@ interface PsiInstanceModel {
     appName: string;
     currentPsiIndex: string;
     currentEditor?: string;
+    admin?: boolean;
 }
 
 export default PsiInstanceModel;
