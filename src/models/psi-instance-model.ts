@@ -6,6 +6,7 @@ interface PsiInstanceModel {
     currentPsiIndex: string;
     currentEditor?: string;
     admin?: boolean;
+    inAdminMode?: boolean;
 }
 
 export default PsiInstanceModel;

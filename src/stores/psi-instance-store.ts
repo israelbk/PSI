@@ -23,6 +23,7 @@ export default class PsiInstanceStore
   @observable currentEditor!: string;
   @observable dataBlockClipboard?: PsiDataBlockStore;
   @observable isAdmin?: boolean;
+  @observable isInAdminMode?: boolean;
 
   constructor() {
     makeObservable(this);
@@ -73,7 +74,11 @@ export default class PsiInstanceStore
     this.dataBlockClipboard = dataBlock;
   }
 
-  @action DeleteCurrentPsi() {
+  @action toggleAdminViewMode() {
+    this.isInAdminMode = !this.isInAdminMode;
+  }
+
+  @action deleteCurrentPsi() {
     if (this.psisStore.length === 1) return;
     this.psisStore.splice(this.currentPsiIndex, 1);
     if (this.currentPsiIndex === this.psisStore.length) {
@@ -98,6 +103,7 @@ export default class PsiInstanceStore
     );
     this.psisStore = observable.array(psiStores);
     this.isAdmin = json.admin ?? false;
+    this.isInAdminMode = json.inAdminMode ?? false;
   }
 
   @action initData() {
@@ -152,6 +158,7 @@ export default class PsiInstanceStore
       currentEditor: this.currentEditor,
       currentPsiIndex: this.currentPsiIndex.toString(),
       admin: this.isAdmin ?? false,
+      inAdminMode: this.isInAdminMode ?? false,
     };
   }
 
