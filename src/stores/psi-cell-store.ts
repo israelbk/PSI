@@ -5,13 +5,15 @@ import {
   observable,
   ObservableMap,
 } from "mobx";
-import { EditorState } from "draft-js";
+import { convertFromRaw, EditorState } from "draft-js";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellModel from "../models/psi-cell-model";
 import PsiRowStore from "./psi-row-store";
 import { v4 as uuid } from "uuid";
 import PsiInstanceStore from "./psi-instance-store";
-import PsiCellDataBlockModel, {EditMetaData} from "../models/psi-cell-editor-model";
+import PsiCellDataBlockModel, {
+  EditMetaData,
+} from "../models/psi-cell-editor-model";
 import PsiDataBlockStore from "./psi-data-block-store";
 import PsiDataBlockModel from "../models/psi-cell-editor-model";
 
@@ -81,12 +83,23 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     this.dataBlocks.delete(id);
   }
 
-
   @action exitEditMode() {
     this.currentlyEditedId = undefined;
   }
 
   @action updateFromJson(json: PsiCellModel) {
+    if (json.freeText != null) {
+      json.dataBlocks = json.freeText.map((freeTextEntry: any) => {
+        return {
+          id: freeTextEntry.id,
+          text: freeTextEntry.text,
+          creationData: this.getMetaData(),
+          editingHistory: [],
+        };
+      });
+      delete json.freeText;
+    }
+
     json.dataBlocks.forEach((dataBlockModel: PsiCellDataBlockModel) => {
       this.dataBlocks.set(
         dataBlockModel.id,
@@ -102,11 +115,16 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     id: string;
     dataBlockStore: PsiDataBlockStore;
   }[] {
-    const viewModeDataBlocks: { id: string; dataBlockStore: PsiDataBlockStore }[] =
-      [];
+    const viewModeDataBlocks: {
+      id: string;
+      dataBlockStore: PsiDataBlockStore;
+    }[] = [];
     this.dataBlocks.forEach((dataBlockStore, dataBlockId) => {
       if (dataBlockId !== this.currentlyEditedId) {
-        viewModeDataBlocks.push({ id: dataBlockId, dataBlockStore: dataBlockStore });
+        viewModeDataBlocks.push({
+          id: dataBlockId,
+          dataBlockStore: dataBlockStore,
+        });
       }
     });
     return viewModeDataBlocks;
@@ -139,7 +157,6 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
       id: this.id,
     };
   }
-
 
   getMetaData = (): EditMetaData => {
     return {
