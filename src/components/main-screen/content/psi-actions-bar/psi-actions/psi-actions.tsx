@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import "./psi-actions.scss";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 import PsiActionOption from "./psi-action-option/psi-action-option";
 import { useFilePicker } from "use-file-picker";
 import SinglePsiModel from "../../../../../models/single-psi-model";
@@ -45,6 +46,10 @@ function PsiActions(props: PsiActionsProps) {
     store.createNewPsi();
   }
 
+  function cloneCurrentPsi() {
+    store.cloneCurrentPsi();
+  }
+
   function DeleteCurrentPsi() {
     store.DeleteCurrentPsi();
   }
@@ -73,6 +78,11 @@ function PsiActions(props: PsiActionsProps) {
           text="Add a blank PSI"
           onClick={() => createNewPsi()}
           renderIcon={() => <AddIcon />}
+        />
+        <PsiActionOption
+          text="Clone current PSI"
+          onClick={() => cloneCurrentPsi()}
+          renderIcon={() => <FileCopyIcon />}
         />
         <PsiActionOption
           text="Import new PSI"

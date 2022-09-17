@@ -4,7 +4,6 @@ import './inline-input-base.scss';
 import {getClasses} from "../../utils/utils";
 
 export interface InlineInputProvidedProps {
-  'data-testid': string;
   className: string;
   onFocus: () => void;
   onBlur: () => void;
@@ -26,7 +25,6 @@ export default function InlineInputBase(props: InlineInputBaseProps) {
     error,
     value,
     isRequired = false,
-    testId = '',
     className,
     children,
     disallowExitEditModeWhileInvalid = false,
@@ -73,7 +71,6 @@ export default function InlineInputBase(props: InlineInputBaseProps) {
             disabled={!isEditDisabled}
         >
           <div
-              data-testid={`automation-inline-input-base-display-${testId}`}
               className={getClasses([
                 'inline-input-base-display-mode-container',
                 hasNoValue && 'render-border',
@@ -89,7 +86,6 @@ export default function InlineInputBase(props: InlineInputBaseProps) {
 
   function renderEditMode() {
     return children({
-      'data-testid': `automation-inline-input-base-edit-${testId}`,
       className: getClasses('inline-input-base-edit-mode-container', errorMsg != null && 'invalid'),
       onFocus: () => setIsInEditMode(true),
       onBlur: () => setIsInEditMode(disallowExitEditModeWhileInvalid && errorMsg != null),

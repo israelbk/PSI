@@ -1,4 +1,10 @@
-import {action, computed, IObservableArray, makeObservable, observable} from "mobx";
+import {
+  action,
+  computed,
+  IObservableArray,
+  makeObservable,
+  observable,
+} from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import SinglePsiModel from "../models/single-psi-model";
 import PsiInstanceStore from "./psi-instance-store";
@@ -10,13 +16,20 @@ export default class SinglePsiStore
 {
   private psiId: string;
   @observable psiRowsStore!: IObservableArray<PsiRowStore>;
+  @observable columnsText!: IObservableArray<string>;
+  @observable psiName: string;
 
   constructor(
     readonly psiInstanceStore: PsiInstanceStore,
     SinglePsiModel?: SinglePsiModel
   ) {
     makeObservable(this);
+    this.columnsText = observable.array(
+      SinglePsiModel?.psiData.columnsText ?? ["Why / What", "Who", "How"]
+    );
     this.psiId = SinglePsiModel?.psiData.id ?? uuid();
+    this.psiName =
+      SinglePsiModel?.psiData.psiName ?? "Enter title for this PSI";
     this.initData(SinglePsiModel);
   }
 
@@ -48,6 +61,12 @@ export default class SinglePsiStore
       json.psiData.psiRowModels.map((model) => new PsiRowStore(this, model))
     );
     this.psiId = json.psiData.id;
+    this.columnsText =
+      json.psiData.columnsText != null
+        ? observable.array(json.psiData.columnsText)
+        : this.columnsText;
+    this.psiName =
+      json.psiData.psiName != null ? json.psiData.psiName : this.psiName;
   }
 
   @computed get modelData(): SinglePsiModel {
@@ -55,8 +74,29 @@ export default class SinglePsiStore
       psiData: {
         id: this.psiId,
         psiRowModels: this.psiRowsStore?.map((store) => store.modelData),
+        columnsText: [...this.columnsText],
+        psiName: this.psiName,
       },
     };
     return json;
+  }
+
+  @action setColumnText(index: number, data: string) {
+    this.columnsText[index] = data;
+  }
+
+  @action setPsiName(psiName: string) {
+    this.psiName = psiName;
+  }
+
+  @computed get whatWhyColumnText(): string {
+    return this.columnsText[0];
+  }
+
+  @computed get whoColumnText(): string {
+    return this.columnsText[1];
+  }
+  @computed get howColumnText(): string {
+    return this.columnsText[2];
   }
 }

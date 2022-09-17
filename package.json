@@ -26,6 +26,7 @@
     "mui": "^0.0.1",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "react-transition-group": "^2.9.0",
@@ -66,6 +67,7 @@
     "@mui/lab": "*",
     "@mui/material": "^5.9.2",
     "@types/lodash": "^4.14.184",
+    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-transition-group": "^4.4.5",
     "sass": "^1.54.4"
   }
