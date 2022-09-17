@@ -25,6 +25,12 @@ export default class PsiDataBlockStore
     this.initData(json);
   }
 
+  @computed get sortedEditingHistory(): IObservableArray<EditMetaData> {
+    return this.editingHistory.sort((a, b) =>
+      a.timestamp > b.timestamp ? 1 : -1
+    );
+  }
+
   @action private initData(json?: PsiDataBlockModel) {
     if (json !== undefined) {
       this.updateFromJson(json);
@@ -50,7 +56,7 @@ export default class PsiDataBlockStore
 
   @action setState(state: EditorState) {
     this.state = state;
-    this.editingHistory.push(this.cellStore.getMetaData())
+    this.editingHistory.push(this.cellStore.getMetaData());
   }
 
   @action updateFromJson(json: PsiDataBlockModel) {

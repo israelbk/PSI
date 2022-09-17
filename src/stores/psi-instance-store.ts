@@ -22,6 +22,7 @@ export default class PsiInstanceStore
   @observable appName!: string;
   @observable currentEditor!: string;
   @observable dataBlockClipboard?: PsiDataBlockStore;
+  @observable isAdmin?: boolean;
 
   constructor() {
     makeObservable(this);
@@ -96,6 +97,7 @@ export default class PsiInstanceStore
       (model) => new SinglePsiStore(this, model)
     );
     this.psisStore = observable.array(psiStores);
+    this.isAdmin = true;
   }
 
   @action initData() {
@@ -129,6 +131,7 @@ export default class PsiInstanceStore
   exportProjectJson(jsonToExport?: string | null) {
     if (jsonToExport == null) {
       delete this.modelData.currentEditor;
+      this.modelData.admin = false;
       jsonToExport = JSON.stringify(this.modelData);
     }
     const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
@@ -136,7 +139,7 @@ export default class PsiInstanceStore
     )}`;
 
     const link = document.createElement("a");
-    const currentDate = moment().format("YYYY/MM/DD-HH:MM");
+    const currentDate = moment().format("YYYY/MM/DD-hh:mm");
     link.href = data;
     link.download = `PSI-Project-${currentDate}.json`;
     link.click();
@@ -148,6 +151,7 @@ export default class PsiInstanceStore
       appName: this.appName,
       currentEditor: this.currentEditor,
       currentPsiIndex: this.currentPsiIndex.toString(),
+      admin: this.isAdmin ?? false,
     };
   }
 
