@@ -29,9 +29,11 @@ export default class PsiInstanceStore
       this.initData();
     } catch (e) {
       alert(
-        "Your save data is could not be used to reload the PSI app \r\n " +
-          "A download of your file will start now \r\n" +
-          " Meanwhile, here's a new clear working project:"
+        "Oops, your saved data could not be used to initialize the PSI app \r\n " +
+          "A download of your saved data will start now \r\n" +
+          "You won't be able to import the downloaded file,\r\n" +
+          "but you can try open it and take important data from it into your new project \r\n" +
+          "Meanwhile, here's a new clear working project:"
       );
       const corruptedJson = LocalStorageService.getPsi();
       LocalStorageService.removePsi();
