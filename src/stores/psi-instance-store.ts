@@ -11,8 +11,8 @@ import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
 import { v4 as uuid } from "uuid";
-import { EditorState } from "draft-js";
 import moment from "moment";
+import PsiDataBlockStore from "./psi-data-block-store";
 
 export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
@@ -21,7 +21,7 @@ export default class PsiInstanceStore
   @observable currentPsiIndex!: number;
   @observable appName!: string;
   @observable currentEditor!: string;
-  @observable stateClipboard?: EditorState;
+  @observable dataBlockClipboard?: PsiDataBlockStore;
 
   constructor() {
     makeObservable(this);
@@ -68,8 +68,8 @@ export default class PsiInstanceStore
     this.currentPsiIndex = this.psisStore.length - 1;
   }
 
-  @action setStateClipboard(state?: EditorState) {
-    this.stateClipboard = state;
+  @action setStateClipboard(dataBlock?: PsiDataBlockStore) {
+    this.dataBlockClipboard = dataBlock;
   }
 
   @action DeleteCurrentPsi() {
@@ -102,7 +102,7 @@ export default class PsiInstanceStore
     this.currentPsiIndex = 0;
     this.appName = "Welcome to PSI app";
     this.currentEditor = "Enter your name";
-    this.stateClipboard = undefined;
+    this.dataBlockClipboard = undefined;
     const localStorageData = LocalStorageService.getPsi();
     if (localStorageData != null) {
       this.updateFromJson(JSON.parse(localStorageData));

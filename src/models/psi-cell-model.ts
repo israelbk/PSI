@@ -1,12 +1,8 @@
+import PsiCellDataBlockModel from "./psi-cell-editor-model";
 
 export default interface PsiCellModel {
-    freeText: TextEntry[];
+    dataBlocks: PsiCellDataBlockModel[];
     row: string;
     column: string;
     id: string
-}
-
-export interface TextEntry {
-    id: string;
-    text: string;
 }
