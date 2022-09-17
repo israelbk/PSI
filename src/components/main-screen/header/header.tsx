@@ -3,13 +3,11 @@ import "./header.scss";
 import PsiInstanceStore from "../../../stores/psi-instance-store";
 import { LoadingButton } from "@mui/lab";
 import { FileDownload, FileUpload } from "@mui/icons-material";
-import moment from "moment";
 import { useFilePicker } from "use-file-picker";
 import { Button } from "@mui/material";
 import LocalStorageService from "../../../services/local-storage-service";
 import InlineTextField from "../../inline-render-text-number-field/inline-render-text-number-field";
 import { observer } from "mobx-react";
-import DialogService from "../../../services/dialog-service";
 import PsiEditor from "./psi-editor/psi-editor";
 
 interface HeaderProps {
@@ -29,12 +27,9 @@ function Header(props: HeaderProps) {
       store.loadData(psiData);
       LocalStorageService.setPsi(psiData);
     } catch (err) {
-      DialogService.openDialog({
-        content: "aaa",
-        onDialogClose(isAgree: boolean): void {},
-        shouldOpen: true,
-      });
       alert("Sorry but the imported file format is not as expected");
+      LocalStorageService.removePsi();
+      store.initData();
       return;
     }
   }, [filesContent, store]);
@@ -44,16 +39,7 @@ function Header(props: HeaderProps) {
   }
 
   function onExportClicked() {
-    const modelData = store.modelData;
-    delete modelData.currentEditor;
-    const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(modelData)
-    )}`;
-    const link = document.createElement("a");
-    const currentDate = moment().format("YYYY/MM/DD-HH:MM");
-    link.href = data;
-    link.download = `PSI-Project-${currentDate}.json`;
-    link.click();
+    store.exportProjectJson();
   }
 
   return (

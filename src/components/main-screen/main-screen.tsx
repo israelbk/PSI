@@ -11,6 +11,7 @@ import PsiActionsBar from "./content/psi-actions-bar/psi-actions-bar";
 
 function MainScreen() {
   const store = useMemo(() => new PsiInstanceStore(), []);
+
   return (
     <div className="main-app-wrapper">
       <Header store={store} />

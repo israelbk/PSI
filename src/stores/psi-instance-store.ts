@@ -10,26 +10,34 @@ import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiInstanceModel from "../models/psi-instance-model";
-import DialogService from "../services/dialog-service";
 import { v4 as uuid } from "uuid";
 import { EditorState } from "draft-js";
+import moment from "moment";
 
 export default class PsiInstanceStore
   implements JsonSerializable<PsiInstanceModel>
 {
   @observable psisStore!: IObservableArray<SinglePsiStore>;
-  @observable currentPsiIndex: number;
-  @observable appName: string;
-  @observable currentEditor: string;
+  @observable currentPsiIndex!: number;
+  @observable appName!: string;
+  @observable currentEditor!: string;
   @observable stateClipboard?: EditorState;
 
   constructor() {
     makeObservable(this);
-    this.currentPsiIndex = 0;
-    this.appName = "Welcome to PSI app";
-    this.currentEditor = "Enter your name";
-    this.stateClipboard = undefined;
-    this.initData();
+    try {
+      this.initData();
+    } catch (e) {
+      alert(
+        "Your save data is could not be used to reload the PSI app \r\n " +
+          "A download of your file will start now \r\n" +
+          " Meanwhile, here's a new clear working project:"
+      );
+      const corruptedJson = LocalStorageService.getPsi();
+      LocalStorageService.removePsi();
+      this.initData();
+      this.exportProjectJson(corruptedJson);
+    }
     reaction(
       () => this.psiJson,
       (psiJson) => LocalStorageService.setPsi(psiJson)
@@ -89,20 +97,15 @@ export default class PsiInstanceStore
   }
 
   @action initData() {
-    try {
-      const localStorageData = LocalStorageService.getPsi();
-      if (localStorageData != null) {
-        this.updateFromJson(JSON.parse(localStorageData));
-      } else {
-        this.psisStore = observable.array([new SinglePsiStore(this)]);
-      }
-    } catch (e) {
-      console.log("ERR");
-      DialogService.openDialog({
-        content: "aaa",
-        onDialogClose(isAgree: boolean): void {},
-        shouldOpen: true,
-      });
+    this.currentPsiIndex = 0;
+    this.appName = "Welcome to PSI app";
+    this.currentEditor = "Enter your name";
+    this.stateClipboard = undefined;
+    const localStorageData = LocalStorageService.getPsi();
+    if (localStorageData != null) {
+      this.updateFromJson(JSON.parse(localStorageData));
+    } else {
+      this.psisStore = observable.array([new SinglePsiStore(this)]);
     }
   }
 
@@ -120,6 +123,22 @@ export default class PsiInstanceStore
   onPsiChanged = () => {
     LocalStorageService.setPsi(this.psiJson);
   };
+
+  exportProjectJson(jsonToExport?: string | null) {
+    if (jsonToExport == null) {
+      delete this.modelData.currentEditor;
+      jsonToExport = JSON.stringify(this.modelData);
+    }
+    const data = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      jsonToExport
+    )}`;
+
+    const link = document.createElement("a");
+    const currentDate = moment().format("YYYY/MM/DD-HH:MM");
+    link.href = data;
+    link.download = `PSI-Project-${currentDate}.json`;
+    link.click();
+  }
 
   @computed get modelData(): PsiInstanceModel {
     return {
