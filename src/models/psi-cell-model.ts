@@ -1,4 +1,4 @@
-import PsiCellDataBlockModel from "./psi-cell-editor-model";
+import PsiCellDataBlockModel from "./psi-data-block-model";
 
 export default interface PsiCellModel {
   dataBlocks: PsiCellDataBlockModel[];

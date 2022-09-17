@@ -8,8 +8,8 @@ import {
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import { v4 as uuid } from "uuid";
-import { EditMetaData } from "../models/psi-cell-editor-model";
-import PsiDataBlockModel from "../models/psi-cell-editor-model";
+import { EditMetaData } from "../models/psi-data-block-model";
+import PsiDataBlockModel from "../models/psi-data-block-model";
 import PsiCellStore from "./psi-cell-store";
 
 export default class PsiDataBlockStore
