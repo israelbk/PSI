@@ -97,7 +97,7 @@ export default class PsiInstanceStore
       (model) => new SinglePsiStore(this, model)
     );
     this.psisStore = observable.array(psiStores);
-    this.isAdmin = true;
+    this.isAdmin = json.admin ?? false;
   }
 
   @action initData() {
