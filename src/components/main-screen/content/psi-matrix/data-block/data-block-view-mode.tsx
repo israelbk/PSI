@@ -31,7 +31,7 @@ function DataBlockViewMode(props: PsiMatrixCellProps) {
 
   return (
     <Tooltip
-      disabled={!store.cellStore.instanceStore.isAdmin}
+      disabled={!store.cellStore.instanceStore.isAdmin || !store.cellStore.instanceStore.isInAdminMode}
       content={<BlockMetaDataPreview store={store}/>}
       theme="light"
       interactive

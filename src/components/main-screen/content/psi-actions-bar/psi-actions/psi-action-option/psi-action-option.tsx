@@ -9,7 +9,7 @@ interface PsiActionOptionProps {
 function PsiActionOption(props: PsiActionOptionProps) {
   const { text, onClick, disabled, renderIcon } = props;
   return disabled ? null : (
-    <div className="psi-single-action-wrapper" onClick={() => onClick()}>
+    <div className="psi-single-action-wrapper" onClick={() => {onClick();}}>
       <>
         {renderIcon()}
         <div className="psi-action-title">{text}</div>

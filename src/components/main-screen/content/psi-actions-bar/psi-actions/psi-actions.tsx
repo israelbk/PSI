@@ -12,6 +12,7 @@ import { useFilePicker } from "use-file-picker";
 import SinglePsiModel from "../../../../../models/single-psi-model";
 import SinglePsiStore from "../../../../../stores/single-psi-store";
 import { FileDownload, FileUpload } from "@mui/icons-material";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import moment from "moment";
 import {v4 as uuid} from "uuid";
 
@@ -44,18 +45,27 @@ function PsiActions(props: PsiActionsProps) {
 
   function createNewPsi() {
     store.createNewPsi();
+    setPsiActionsIsOpen(false);
   }
 
   function cloneCurrentPsi() {
     store.cloneCurrentPsi();
+    setPsiActionsIsOpen(false);
   }
 
-  function DeleteCurrentPsi() {
-    store.DeleteCurrentPsi();
+  function deleteCurrentPsi() {
+    store.deleteCurrentPsi();
+    setPsiActionsIsOpen(false);
+  }
+
+  function toggleAdminViewMode() {
+    store.toggleAdminViewMode();
+    setPsiActionsIsOpen(false);
   }
 
   function importNewPsi() {
     openFileSelector();
+    setPsiActionsIsOpen(false);
   }
 
   function exportCurrentPsi() {
@@ -69,6 +79,7 @@ function PsiActions(props: PsiActionsProps) {
     link.href = data;
     link.download = `Single-PSI-${currentDate}.json`;
     link.click();
+    setPsiActionsIsOpen(false);
   }
 
   function renderPsiActionsOptions() {
@@ -96,9 +107,15 @@ function PsiActions(props: PsiActionsProps) {
         />
         <PsiActionOption
           text="Delete current PSI"
-          onClick={() => DeleteCurrentPsi()}
+          onClick={() => deleteCurrentPsi()}
           renderIcon={() => <DeleteIcon />}
           disabled={disableDeletePsi}
+        />
+        <PsiActionOption
+          text={store.isInAdminMode ? "Exit admin view" : "Enter admin view"}
+          onClick={() => toggleAdminViewMode()}
+          renderIcon={() => <AdminPanelSettingsIcon />}
+          disabled={!store.isAdmin}
         />
       </div>
     );
