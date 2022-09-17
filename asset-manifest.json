@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/PSI/static/css/main.d75ce7d4.css",
-    "main.js": "/PSI/static/js/main.6babab6e.js",
+    "main.css": "/PSI/static/css/main.ae77c15c.css",
+    "main.js": "/PSI/static/js/main.a75e0c0b.js",
     "index.html": "/PSI/index.html",
-    "main.d75ce7d4.css.map": "/PSI/static/css/main.d75ce7d4.css.map",
-    "main.6babab6e.js.map": "/PSI/static/js/main.6babab6e.js.map"
+    "main.ae77c15c.css.map": "/PSI/static/css/main.ae77c15c.css.map",
+    "main.a75e0c0b.js.map": "/PSI/static/js/main.a75e0c0b.js.map"
   },
   "entrypoints": [
-    "static/css/main.d75ce7d4.css",
-    "static/js/main.6babab6e.js"
+    "static/css/main.ae77c15c.css",
+    "static/js/main.a75e0c0b.js"
   ]
 }
