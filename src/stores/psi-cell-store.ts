@@ -36,7 +36,7 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
 
   @action popFreeTextStateById(id: string): PsiDataBlockStore {
     const dataBlock = this.dataBlocks.get(id);
-    this.dataBlocks.delete(id);
+    this.deleteStateById(id);
     return dataBlock!;
   }
 
@@ -58,7 +58,20 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     return newDataBlock.state;
   }
 
-  @action addDataBlock(dataBlock: PsiDataBlockStore) {
+  @action addDataBlock(dataBlock: PsiDataBlockStore, destIndex: number) {
+    if (destIndex === 0) {
+      dataBlock.blockIndex =
+        (this.sortedViewModeDataBlocks[0]?.blockIndex ?? 0) - 1;
+    } else if (destIndex === this.sortedViewModeDataBlocks.length) {
+      dataBlock.blockIndex =
+        (this.sortedViewModeDataBlocks.at(-1)?.blockIndex ?? 0) + 1;
+    } else {
+      dataBlock.blockIndex =
+        (this.sortedViewModeDataBlocks[destIndex].blockIndex +
+          this.sortedViewModeDataBlocks[destIndex - 1].blockIndex) /
+        2;
+    }
+
     this.dataBlocks.set(dataBlock.id, dataBlock);
   }
 
@@ -70,6 +83,7 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     modelData.editingHistory = [];
     modelData.creationData = this.getMetaData();
     const newBlockData = new PsiDataBlockStore(this, modelData);
+    newBlockData.blockIndex = this.lastBlockIndex + 1
     this.dataBlocks.set(newBlockData.id, newBlockData);
     this.instanceStore.setStateClipboard(undefined);
   }
@@ -111,23 +125,16 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
     this.id = json.id ?? uuid();
   }
 
-  @computed get viewModeDataBlocks(): {
-    id: string;
-    dataBlockStore: PsiDataBlockStore;
-  }[] {
-    const viewModeDataBlocks: {
-      id: string;
-      dataBlockStore: PsiDataBlockStore;
-    }[] = [];
+  @computed get sortedViewModeDataBlocks(): PsiDataBlockStore[] {
+    let viewModeDataBlocks: PsiDataBlockStore[] = [];
     this.dataBlocks.forEach((dataBlockStore, dataBlockId) => {
       if (dataBlockId !== this.currentlyEditedId) {
-        viewModeDataBlocks.push({
-          id: dataBlockId,
-          dataBlockStore: dataBlockStore,
-        });
+        viewModeDataBlocks.push(dataBlockStore);
       }
     });
-    return viewModeDataBlocks;
+    return viewModeDataBlocks.sort((a, b) =>
+      a.blockIndex > b.blockIndex ? 1 : -1
+    );
   }
 
   @computed get currentlyEditedState(): PsiDataBlockStore | undefined {
@@ -142,6 +149,11 @@ export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
 
   @computed get instanceStore(): PsiInstanceStore {
     return this.psiRowStore.singlePsiStore.psiInstanceStore;
+  }
+
+  @computed get lastBlockIndex(): number {
+    const lastBlockIndex =Number(this.sortedViewModeDataBlocks.at(-1)?.blockIndex);
+    return isNaN(lastBlockIndex) ? 0 : lastBlockIndex;
   }
 
   @computed get modelData(): PsiCellModel {

@@ -5,7 +5,7 @@ import PsiCellStore from "../../../../../stores/psi-cell-store";
 import { observer, Observer } from "mobx-react";
 import "./psi-matrix-cell.scss";
 import AddIcon from "@mui/icons-material/Add";
-import {Droppable, Draggable, DroppableProvided} from "react-beautiful-dnd";
+import { Droppable, Draggable, DroppableProvided } from "react-beautiful-dnd";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import DataBlockViewMode from "../data-block/data-block-view-mode";
 
@@ -88,8 +88,12 @@ function PsiMatrixCell(props: PsiMatrixCellProps) {
         <Observer>
           {() => (
             <>
-              {store.viewModeDataBlocks.map(({ id, dataBlockStore }, index) => (
-                <Draggable draggableId={id} index={index} key={id}>
+              {store.sortedViewModeDataBlocks.map((dataBlockStore, index) => (
+                <Draggable
+                  draggableId={dataBlockStore.id}
+                  index={index}
+                  key={dataBlockStore.id}
+                >
                   {(provided, snapshot) => (
                     <DataBlockViewMode
                       store={dataBlockStore}

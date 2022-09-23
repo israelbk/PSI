@@ -26,7 +26,8 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
   function onItemDropped(
     sourceCellId: string,
     destCellId: string,
-    itemId: string
+    itemId: string,
+    destIndex: number
   ) {
     let sourceCellStore: PsiCellStore;
     let destCellStore: PsiCellStore;
@@ -44,7 +45,8 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
     if (sourceCellStore! == null || destCellStore! == null) return;
 
     const draggedDataBlock = sourceCellStore.popFreeTextStateById(itemId);
-    destCellStore.addDataBlock(draggedDataBlock);
+    draggedDataBlock.setCellStore(destCellStore);
+    destCellStore.addDataBlock(draggedDataBlock, destIndex);
   }
 
   return (
@@ -54,7 +56,8 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
           onItemDropped(
             source.droppableId,
             destination.droppableId,
-            draggableId
+            draggableId,
+            destination.index
           );
         }
       }}
@@ -79,23 +82,22 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
                 <TableCell align="center" className="left-border">
                   <div className="column-text-container">
                     <div className="column-text-editor">
-
-                    <InlineTextField
-                      onBlur={(value) => currentPsi.setColumnText(1, value)}
-                      input={currentPsi.whoColumnText}
-                      tooltipContent="The Who section"
-                    />
+                      <InlineTextField
+                        onBlur={(value) => currentPsi.setColumnText(1, value)}
+                        input={currentPsi.whoColumnText}
+                        tooltipContent="The Who section"
+                      />
                     </div>
                   </div>
                 </TableCell>
                 <TableCell align="center" className="left-border">
                   <div className="column-text-container">
                     <div className="column-text-editor">
-                    <InlineTextField
-                      onBlur={(value) => currentPsi.setColumnText(2, value)}
-                      input={currentPsi.howColumnText}
-                      tooltipContent="The How section"
-                    />
+                      <InlineTextField
+                        onBlur={(value) => currentPsi.setColumnText(2, value)}
+                        input={currentPsi.howColumnText}
+                        tooltipContent="The How section"
+                      />
                     </div>
                   </div>
                 </TableCell>
