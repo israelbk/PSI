@@ -63,6 +63,11 @@ function PsiActions(props: PsiActionsProps) {
     setPsiActionsIsOpen(false);
   }
 
+  function toggleCompactView() {
+    store.toggleCompactView();
+    setPsiActionsIsOpen(false);
+  }
+
   function importNewPsi() {
     openFileSelector();
     setPsiActionsIsOpen(false);
@@ -116,6 +121,11 @@ function PsiActions(props: PsiActionsProps) {
           onClick={() => toggleAdminViewMode()}
           renderIcon={() => <AdminPanelSettingsIcon />}
           disabled={!store.isAdmin}
+        />
+        <PsiActionOption
+            text={store.isCompactView ? "Exit compact view" : "Enter compact view"}
+            onClick={() => toggleCompactView()}
+            renderIcon={() => <AddIcon />}
         />
       </div>
     );

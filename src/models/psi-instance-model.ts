@@ -7,6 +7,7 @@ interface PsiInstanceModel {
     currentEditor?: string;
     admin?: boolean;
     inAdminMode?: boolean;
+    isCompactView?: boolean;
 }
 
 export default PsiInstanceModel;

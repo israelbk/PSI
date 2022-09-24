@@ -24,6 +24,7 @@ export default class PsiInstanceStore
   @observable dataBlockClipboard?: PsiDataBlockStore;
   @observable isAdmin?: boolean;
   @observable isInAdminMode?: boolean;
+  @observable isCompactView?: boolean;
 
   constructor() {
     makeObservable(this);
@@ -78,6 +79,10 @@ export default class PsiInstanceStore
     this.isInAdminMode = !this.isInAdminMode;
   }
 
+  @action toggleCompactView() {
+    this.isCompactView = !this.isCompactView;
+  }
+
   @action deleteCurrentPsi() {
     if (this.psisStore.length === 1) return;
     this.psisStore.splice(this.currentPsiIndex, 1);
@@ -104,6 +109,7 @@ export default class PsiInstanceStore
     this.psisStore = observable.array(psiStores);
     this.isAdmin = json.admin ?? false;
     this.isInAdminMode = json.inAdminMode ?? false;
+    this.isCompactView = json.isCompactView ?? false;
   }
 
   @action initData() {
@@ -159,6 +165,7 @@ export default class PsiInstanceStore
       currentPsiIndex: this.currentPsiIndex.toString(),
       admin: this.isAdmin ?? false,
       inAdminMode: this.isInAdminMode ?? false,
+      isCompactView: this.isCompactView ?? false,
     };
   }
 
