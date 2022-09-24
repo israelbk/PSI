@@ -20,6 +20,21 @@
 
   .row-phase-title {
     max-width: 10px;
+    .row-header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .delete-row-icon {
+        cursor: pointer;
+        opacity: 0;
+      }
+      &:hover {
+        .delete-row-icon {
+          opacity: 1;
+          transition: opacity 0.5s;
+        }
+      }
+    }
   }
 
   .column-text-container {

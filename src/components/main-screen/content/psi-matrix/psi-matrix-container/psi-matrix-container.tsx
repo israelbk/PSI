@@ -14,6 +14,7 @@ import { observer } from "mobx-react";
 import { DragDropContext } from "react-beautiful-dnd";
 import PsiCellStore from "../../../../../stores/psi-cell-store";
 import InlineTextField from "../../../../inline-render-text-number-field/inline-render-text-number-field";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface PsiMatrixContainerProps {
   store: PsiInstanceStore;
@@ -106,7 +107,7 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
             <TableBody>
               {currentPsi.psiRowsStore.map((row: PsiRowStore) => (
                 <TableRow
-                  key={row.phase + "-" + currentPsi.modelData.psiData.id}
+                  key={row.id}
                   sx={{
                     "&:last-child td, &:last-child th": { borderBlock: 0 },
                   }}
@@ -117,12 +118,20 @@ function PsiMatrixContainer(props: PsiMatrixContainerProps) {
                     scope="row"
                     className="row-phase-title"
                   >
-                    <bdi dir="auto" className="right-border">
-                      <InlineTextField
-                        onBlur={(value) => row.setPhaseString(value)}
-                        input={row.phase}
-                      />
-                    </bdi>
+                    <div className='row-header-container'>
+                      <bdi dir="auto">
+                        <InlineTextField
+                          onBlur={(value) => row.setPhaseString(value)}
+                          input={row.phase}
+                        />
+                      </bdi>
+                      {row.shouldAllowDelete && (
+                        <DeleteIcon
+                          className="delete-row-icon"
+                          onClick={() => store.currentPsiStore.deleteRow(row)}
+                        />
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell align="right" className="left-border psi-cell">
                     <PsiMatrixCell store={row.what} />
