@@ -10,7 +10,7 @@ import JsonSerializable from "../interfaces/JsonSerializable";
 import { v4 as uuid } from "uuid";
 import PsiDataBlockModel, {
   EditMetaData,
-} from "../models/psi-data-block-model";
+} from "../interfaces/psi-data-block-model";
 import PsiCellStore from "./psi-cell-store";
 
 export default class PsiDataBlockStore

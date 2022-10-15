@@ -9,7 +9,7 @@ import {
 import LocalStorageService from "../services/local-storage-service";
 import SinglePsiStore from "./single-psi-store";
 import JsonSerializable from "../interfaces/JsonSerializable";
-import PsiInstanceModel from "../models/psi-instance-model";
+import PsiInstanceModel from "../interfaces/psi-instance-model";
 import { v4 as uuid } from "uuid";
 import moment from "moment";
 import PsiDataBlockStore from "./psi-data-block-store";

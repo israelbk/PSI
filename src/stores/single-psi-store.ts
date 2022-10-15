@@ -6,7 +6,7 @@ import {
   observable,
 } from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
-import SinglePsiModel from "../models/single-psi-model";
+import SinglePsiModel from "../interfaces/single-psi-model";
 import PsiInstanceStore from "./psi-instance-store";
 import { v4 as uuid } from "uuid";
 import PsiRowStore from "./psi-row-store";

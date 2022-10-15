@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellStore from "./psi-cell-store";
-import PsiRowModel from "../models/psi-row-model";
+import PsiRowModel from "../interfaces/psi-row-model";
 import SinglePsiStore from "./single-psi-store";
 import {v4 as uuid} from "uuid";
 

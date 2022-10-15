@@ -7,15 +7,15 @@ import {
 } from "mobx";
 import { EditorState } from "draft-js";
 import JsonSerializable from "../interfaces/JsonSerializable";
-import PsiCellModel from "../models/psi-cell-model";
+import PsiCellModel from "../interfaces/psi-cell-model";
 import PsiRowStore from "./psi-row-store";
 import { v4 as uuid } from "uuid";
 import PsiInstanceStore from "./psi-instance-store";
 import PsiCellDataBlockModel, {
   EditMetaData,
-} from "../models/psi-data-block-model";
+} from "../interfaces/psi-data-block-model";
 import PsiDataBlockStore from "./psi-data-block-store";
-import PsiDataBlockModel from "../models/psi-data-block-model";
+import PsiDataBlockModel from "../interfaces/psi-data-block-model";
 
 export default class PsiCellStore implements JsonSerializable<PsiCellModel> {
   @observable dataBlocks!: ObservableMap<string, PsiDataBlockStore>;

@@ -9,7 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import PsiActionOption from "./psi-action-option/psi-action-option";
 import { useFilePicker } from "use-file-picker";
-import SinglePsiModel from "../../../../../models/single-psi-model";
+import SinglePsiModel from "../../../../../interfaces/single-psi-model";
 import SinglePsiStore from "../../../../../stores/single-psi-store";
 import { FileDownload, FileUpload } from "@mui/icons-material";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
