@@ -1,11 +1,13 @@
-import {action, computed, makeObservable, observable} from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import PsiCellStore from "./psi-cell-store";
-import PsiRowModel from "../models/psi-row-model";
+import PsiRowModel from "../interfaces/psi-row-model";
 import SinglePsiStore from "./single-psi-store";
+import {v4 as uuid} from "uuid";
 
 export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
   rowNum!: number;
+  id! :string;
   @observable phase!: string;
   @observable what!: PsiCellStore;
   @observable who!: PsiCellStore;
@@ -20,6 +22,7 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
   }
 
   @action initData(rowModel: PsiRowModel) {
+    this.id = uuid()
     this.phase = rowModel.phase;
     this.rowNum = Number(rowModel.rowNum);
     if (rowModel.data != null) {
@@ -38,10 +41,14 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
   }
 
   @action setPhaseString(phase: string) {
-    this.phase = phase
+    this.phase = phase;
   }
 
-  @computed get modelData(): PsiRowModel{
+  @computed get shouldAllowDelete(): boolean {
+    return this.rowNum > 2;
+  }
+
+  @computed get modelData(): PsiRowModel {
     const json = {
       rowNum: this.rowNum.toString(),
       phase: this.phase,
@@ -50,7 +57,7 @@ export default class PsiRowStore implements JsonSerializable<PsiRowModel> {
         who: this.who.modelData,
         how: this.how.modelData,
       },
-    }
+    };
     return json;
   }
 }

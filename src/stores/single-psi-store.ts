@@ -6,7 +6,7 @@ import {
   observable,
 } from "mobx";
 import JsonSerializable from "../interfaces/JsonSerializable";
-import SinglePsiModel from "../models/single-psi-model";
+import SinglePsiModel from "../interfaces/single-psi-model";
 import PsiInstanceStore from "./psi-instance-store";
 import { v4 as uuid } from "uuid";
 import PsiRowStore from "./psi-row-store";
@@ -34,6 +34,7 @@ export default class SinglePsiStore
   }
 
   defaultRowsData: Map<number, string> = new Map<number, string>([
+    [-1, "New row"],
     [0, "Ethos/Vision"],
     [1, "Counseling/ Reflection"],
     [2, "Daily life"],
@@ -70,7 +71,7 @@ export default class SinglePsiStore
   }
 
   @computed get modelData(): SinglePsiModel {
-    const json = {
+    return {
       psiData: {
         id: this.psiId,
         psiRowModels: this.psiRowsStore?.map((store) => store.modelData),
@@ -78,11 +79,30 @@ export default class SinglePsiStore
         psiName: this.psiName,
       },
     };
-    return json;
   }
 
   @action setColumnText(index: number, data: string) {
     this.columnsText[index] = data;
+  }
+
+  @action deleteRow(row: PsiRowStore) {
+    const rowNum = this.psiRowsStore.findIndex(
+      (rowStore) => rowStore.id === row.id
+    );
+    this.psiRowsStore.splice(rowNum, 1);
+  }
+
+  @action AddNewRow() {
+    this.psiRowsStore.push(
+      new PsiRowStore(this, {
+        rowNum: this.psiRowsStore.length.toString(),
+        phase:
+          this.defaultRowsData.get(-1)! +
+          " (" +
+          (this.psiRowsStore.length - 2).toString() +
+          ")",
+      })
+    );
   }
 
   @action setPsiName(psiName: string) {

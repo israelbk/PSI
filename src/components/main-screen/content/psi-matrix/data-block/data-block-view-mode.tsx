@@ -10,6 +10,7 @@ import { DraggableProvided } from "react-beautiful-dnd";
 import PsiDataBlockStore from "../../../../../stores/psi-data-block-store";
 import { Tooltip } from "../../../../tooltip/tooltip";
 import BlockMetaDataPreview from "./block-meta-data-preview/block-meta-data-preview";
+import { getClasses } from "../../../../../utils/utils";
 
 interface PsiMatrixCellProps {
   store: PsiDataBlockStore;
@@ -31,8 +32,11 @@ function DataBlockViewMode(props: PsiMatrixCellProps) {
 
   return (
     <Tooltip
-      disabled={!store.cellStore.instanceStore.isAdmin || !store.cellStore.instanceStore.isInAdminMode}
-      content={<BlockMetaDataPreview store={store}/>}
+      disabled={
+        !store.cellStore.instanceStore.isAdmin ||
+        !store.cellStore.instanceStore.isInAdminMode
+      }
+      content={<BlockMetaDataPreview store={store} />}
       theme="light"
       interactive
     >
@@ -48,7 +52,12 @@ function DataBlockViewMode(props: PsiMatrixCellProps) {
           readOnly={true}
           onChange={() => void 0}
         />
-        <div className="cell-state-actions">
+        <div
+          className={getClasses(
+            "cell-state-actions",
+            store.cellStore.instanceStore.isCompactView && "compact-view"
+          )}
+        >
           <ContentCopyIcon
             className="cta-icon"
             onClick={() => copyDataBlockIntoClipboard()}

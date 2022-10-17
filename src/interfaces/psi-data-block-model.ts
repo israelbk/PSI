@@ -4,6 +4,7 @@ export default interface PsiDataBlockModel {
     text: string;
     creationData: EditMetaData;
     editingHistory: EditMetaData[];
+    blockIndex: string;
 }
 
 export interface EditMetaData {

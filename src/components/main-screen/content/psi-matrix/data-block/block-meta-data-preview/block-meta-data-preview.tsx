@@ -34,8 +34,8 @@ function BlockMetaDataPreview(props: PsiMatrixCellProps) {
             <div>Edited by:</div>
             <div>Edited At:</div>
           </div>
-          {store.editingHistory.map((edit) => (
-            <div className="meta-data-block">
+          {store.editingHistory.map((edit, index) => (
+            <div className="meta-data-block" key={edit.timestamp + "-" + index}>
               <div>{edit.user}</div>
               <div>{formmatedTime(edit.timestamp)}</div>
             </div>

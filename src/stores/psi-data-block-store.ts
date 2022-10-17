@@ -8,8 +8,9 @@ import {
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import JsonSerializable from "../interfaces/JsonSerializable";
 import { v4 as uuid } from "uuid";
-import { EditMetaData } from "../models/psi-data-block-model";
-import PsiDataBlockModel from "../models/psi-data-block-model";
+import PsiDataBlockModel, {
+  EditMetaData,
+} from "../interfaces/psi-data-block-model";
 import PsiCellStore from "./psi-cell-store";
 
 export default class PsiDataBlockStore
@@ -19,9 +20,12 @@ export default class PsiDataBlockStore
   @observable state!: EditorState;
   @observable creationData!: EditMetaData;
   @observable editingHistory!: IObservableArray<EditMetaData>;
+  @observable blockIndex!: number;
+  @observable cellStore!: PsiCellStore;
 
-  constructor(readonly cellStore: PsiCellStore, json?: PsiDataBlockModel) {
+  constructor(cellStore: PsiCellStore, json?: PsiDataBlockModel) {
     makeObservable(this);
+    this.cellStore = cellStore;
     this.initData(json);
   }
 
@@ -39,11 +43,16 @@ export default class PsiDataBlockStore
       this.editingHistory = observable.array();
       this.state = EditorState.createEmpty();
       this.creationData = this.cellStore.getMetaData();
+      this.blockIndex = this.cellStore.lastBlockIndex + 1;
     }
   }
 
   @action copyCurrentBlockIntoClipboard() {
     this.cellStore.instanceStore.setStateClipboard(this);
+  }
+
+  @action setCellStore(cellStore: PsiCellStore) {
+    this.cellStore = cellStore;
   }
 
   @action deleteDataBlock() {
@@ -65,6 +74,9 @@ export default class PsiDataBlockStore
     this.id = json.id ?? uuid();
     this.creationData = json.creationData ?? this.cellStore.getMetaData();
     this.editingHistory = observable.array(json.editingHistory ?? []);
+    this.blockIndex = isNaN(Number(json.blockIndex))
+      ? this.cellStore.lastBlockIndex + 1
+      : Number(json.blockIndex);
   }
 
   @computed get modelData(): PsiDataBlockModel {
@@ -77,6 +89,7 @@ export default class PsiDataBlockStore
       text: extractedState,
       creationData: this.creationData,
       editingHistory: this.editingHistory,
+      blockIndex: this.blockIndex.toString(),
     };
   }
 }

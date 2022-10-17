@@ -8,6 +8,7 @@
     .cell-state-actions {
       opacity: 1;
       transition: opacity 0.5s;
+      display: unset;
       .cta-icon {
         cursor: pointer;
         fill: #7e7e7e;
@@ -17,5 +18,13 @@
         }
       }
     }
+  }
+}
+
+.cell-state-actions,
+.cell-actions {
+  opacity: 0;
+  &.compact-view{
+    display: none;
   }
 }
