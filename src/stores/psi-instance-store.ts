@@ -96,6 +96,8 @@ export default class PsiInstanceStore
   }
 
   @action setCurrentEditor(newEditor: string) {
+    if(newEditor.trim().toLowerCase() === "admin")
+      this.isAdmin = true;
     this.currentEditor = newEditor;
   }
 
@@ -170,7 +172,6 @@ export default class PsiInstanceStore
   }
 
   @computed get psiJson(): string {
-    const json = this.modelData;
-    return JSON.stringify(json);
+    return JSON.stringify(this.modelData);
   }
 }
